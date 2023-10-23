@@ -36,7 +36,7 @@ public:
 	void setСolor(vec3 color);
 	vec3 getColor();
 	// Установка используемого материала
-	void setMaterial(PhongMaterial* material);
+	void setMaterial(const vector<shared_ptr<PhongMaterial>>& material);
 	// Вывести объект
 	void draw();
 private:
@@ -49,7 +49,8 @@ private:
 	// Матрица модели (расположение объекта) - чтоб не вычислять каждый раз
 	mat4 modelMatrix;
 	// Используемый материал
-	PhongMaterial* material;
+	vector<shared_ptr<PhongMaterial>> material;
+
 private:
 	// расчет матрицы modelMatrix на основе position и angle
 	void recalculateModelMatrix();

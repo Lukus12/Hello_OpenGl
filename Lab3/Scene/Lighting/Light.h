@@ -4,7 +4,7 @@
 #include <vector>
 #include "GL/freeglut.h"
 #include <glm/glm.hpp>
-#include "GraphicObject.h"
+#include "..\Object\GraphicObject.h"
 
 // йкюяя дкъ пюанрш я хярнвмхйнл яберю
 class Light

@@ -45,7 +45,7 @@ void Light::setSpecular(vec4 color)
 
 void Light::apply(GLenum LightNumber)
 {
-	setAmbient(vec4(1.0, 1.0, 1.0, 1.0));
+	setAmbient(vec4(0.1, 0.1, 0.1, 1.0));
 	setDiffuse(vec4(1.0, 1.0, 1.0, 1.0));
 	setSpecular(vec4(1.0, 1.0, 1.0, 1.0));
 

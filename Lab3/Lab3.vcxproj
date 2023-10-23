@@ -142,23 +142,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Data.cpp" />
-    <ClCompile Include="Display.cpp" />
-    <ClCompile Include="GraphicObject.cpp" />
+    <ClCompile Include="Data\Data.cpp" />
+    <ClCompile Include="Display\Display.cpp" />
+    <ClCompile Include="Display\Simulation.cpp" />
     <ClCompile Include="Lab3.cpp" />
-    <ClCompile Include="Light.cpp" />
-    <ClCompile Include="PhongMaterial.cpp" />
-    <ClCompile Include="Simulation.cpp" />
+    <ClCompile Include="Scene\Camera\Camera.cpp" />
+    <ClCompile Include="Scene\Lighting\Light.cpp" />
+    <ClCompile Include="Scene\Object\GraphicObject.cpp" />
+    <ClCompile Include="Scene\Object\PhongMaterial.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Data.h" />
-    <ClInclude Include="Display.h" />
-    <ClInclude Include="GraphicObject.h" />
-    <ClInclude Include="Light.h" />
-    <ClInclude Include="PhongMaterial.h" />
-    <ClInclude Include="Simulation.h" />
+    <ClInclude Include="Data\Data.h" />
+    <ClInclude Include="Display\Display.h" />
+    <ClInclude Include="Display\Simulation.h" />
+    <ClInclude Include="Scene\Camera\Camera.h" />
+    <ClInclude Include="Scene\Lighting\Light.h" />
+    <ClInclude Include="Scene\Object\GraphicObject.h" />
+    <ClInclude Include="Scene\Object\PhongMaterial.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

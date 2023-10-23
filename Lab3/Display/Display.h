@@ -10,7 +10,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "Data.h"
+#include "..\Data\Data.h"
 #include <sstream>
 
 void display(void);

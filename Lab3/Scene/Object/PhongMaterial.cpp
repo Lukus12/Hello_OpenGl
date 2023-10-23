@@ -130,7 +130,7 @@ void PhongMaterial::load(string filename)
 		}
 	}
 	fin.close();
-	cout << this->diffuse.r << " ";
+	/*cout << this->diffuse.r << " ";
 	cout << this->diffuse.g << " ";
 	cout << this->diffuse.b << " ";
 	cout << this->diffuse.w << endl;
@@ -146,7 +146,7 @@ void PhongMaterial::load(string filename)
 	cout << this->emission.g << " ";
 	cout << this->emission.b << " ";
 	cout << this->emission.w << endl;
-	cout << this->shininess << endl;
+	cout << this->shininess << endl;*/
 }
 
 void PhongMaterial::apply()

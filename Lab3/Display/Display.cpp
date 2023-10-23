@@ -3,19 +3,44 @@
 
 
 extern LARGE_INTEGER previous, frequency;
-extern double interval, fps;
-extern int frameCount;
 
+int frameCount = 0;
+double interval, fps; 
+double allFPS = 0;
+double averageFPS = 0;
+//считать результаты fps через их сумму и поделить на их кол-во спуст€ 1000 миллисек(сумма интервалов)
 
-double getFPS() {
+double allInterval=0;
+
+void winFPS() {
+	std::ostringstream oss;
 	LARGE_INTEGER current;
 	QueryPerformanceCounter(&current);
+
 	interval = static_cast<double>(current.QuadPart - previous.QuadPart) / frequency.QuadPart;
+	allInterval += interval;
+
 	previous = current;
 
 	fps = 1.0 / interval;
+	allFPS += fps;
 
-	return fps;
+	frameCount++;
+
+	if (allInterval > 1) {
+
+		allInterval -= 1;
+
+		averageFPS = allFPS / frameCount;
+
+		frameCount = 0;
+		allFPS = 0;
+
+		oss << "Laba_04 [" << averageFPS << " FPS]";
+		glutSetWindowTitle(oss.str().c_str());
+	}
+
+
 }
 
 void display(void)
@@ -37,20 +62,13 @@ void display(void)
 		go.draw();
 	}
 	
-	double FPS = getFPS();
+	winFPS();
 	
 	// смена переднего и заднего буферов
 	glutSwapBuffers();
-	
-	frameCount++;
-	std::ostringstream oss;
-	if (frameCount % 2000 == 0) {
-		oss << "Laba_04 [" << FPS << " FPS]";
-		glutSetWindowTitle(oss.str().c_str());
-		frameCount = 0;
-	}
 
 };
+
 void reshape(int w, int h)
 {
 	// установить новую область просмотра, равную всей области окна

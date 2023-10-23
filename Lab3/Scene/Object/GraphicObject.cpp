@@ -31,7 +31,7 @@ void GraphicObject::recalculateModelMatrix() {
 
 }
 
-void GraphicObject::setMaterial(PhongMaterial* material)
+void GraphicObject::setMaterial(const std::vector<std::shared_ptr<PhongMaterial>>& material)
 {
 	this->material = material;
 }
@@ -41,12 +41,15 @@ void GraphicObject::draw() {
 	recalculateModelMatrix();
 	//glColor3f(color[0], color[1], color[2]);
 
-
 	glPushMatrix();
 	glMultMatrixf(&modelMatrix[0][0]);
-	if (material != nullptr) {
-		material->apply();
+
+	for (const auto& material : material) {
+		if (material != nullptr) {
+			material->apply();
+		}
 	}
+	//glutWireTeapot(1.0);
 	glutSolidTeapot(1.0);
 	glPopMatrix();
 }
