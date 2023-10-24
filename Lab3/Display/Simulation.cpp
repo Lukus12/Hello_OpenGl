@@ -7,9 +7,9 @@ extern LARGE_INTEGER previous, frequency;
 
 void moveCamera(float simulationTime)
 {
-	float SpeedHorizontal = 130000 * simulationTime / 1000;
-	float SpeedVertical = 130000 * simulationTime / 1000;
-	float SpeedZoom = 20000 * simulationTime / 1000;
+	float SpeedHorizontal = 130 * simulationTime;
+	float SpeedVertical = 130 * simulationTime;
+	float SpeedZoom = 20 * simulationTime;
 
 	if(GetAsyncKeyState(0x57)) camera.rotateUpDown(SpeedVertical);
 	if (GetAsyncKeyState(0x53)) camera.rotateUpDown(-SpeedVertical);

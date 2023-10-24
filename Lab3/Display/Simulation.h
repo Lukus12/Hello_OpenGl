@@ -3,5 +3,5 @@
 #include <iostream>
 
 void simulation();
-void moveCamera();
+void moveCamera(float simulationTime);
 double getSimulationTime();
