@@ -57,6 +57,9 @@ void main(int argc, char** argv)
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
 
+	// Оптимизировать хранение параметров у материала. (Это можно уместить в 5 байт)
+	// Даже можно уместить 5 материалов в один файл.
+	// LGTM!
 	shared_ptr<PhongMaterial> material1 = make_shared<PhongMaterial>();
 	material1->load("Data//materials//material_1.txt");
 
