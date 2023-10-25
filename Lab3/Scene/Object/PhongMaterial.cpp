@@ -59,7 +59,8 @@ void PhongMaterial::load(string filename)
 			int k = 0;
 			fin >> str;
 			for (int i = 0; i < str.length(); i++) {
-				if (j == 0) {
+				// YandereDev style ?
+				if (j >= 0 && j < 4) {
 					if (str[i] == '.' && (str[i - 1] == '1' || str[i - 1] == '0')) {
 						simbol.append(str.substr(i - 1, 3));
 						color[k] = stod(simbol);
@@ -67,30 +68,7 @@ void PhongMaterial::load(string filename)
 						k++;
 					}
 				}
-				if (j == 1) {
-					if (str[i] == '.' && (str[i - 1] == '1' || str[i - 1] == '0')) {
-						simbol.append(str.substr(i - 1, 3));
-						color[k] = stod(simbol);
-						simbol = "";
-						k++;
-					}
-				}
-				if (j == 2) {
-					if (str[i] == '.' && (str[i - 1] == '1' || str[i - 1] == '0')) {
-						simbol.append(str.substr(i - 1, 3));
-						color[k] = stod(simbol);
-						simbol = "";
-						k++;
-					}
-				}
-				if (j == 3) {
-					if (str[i] == '.' && (str[i - 1] == '1' || str[i - 1] == '0')) {
-						simbol.append(str.substr(i - 1, 3));
-						color[k] = stod(simbol);
-						simbol = "";
-						k++;
-					}
-				}
+
 				if (j == 4) {
 					float num;
 					if (str[i] == '.' and (int(str[i - 1]) >= 48 and int(str[i - 1]) <= 57)) {
@@ -103,21 +81,21 @@ void PhongMaterial::load(string filename)
 								simbol.append(str.substr(i - 2, 4));
 								num = stod(simbol);
 							}
-						}
-						else {
+						} else {
 							simbol.append(str.substr(i - 1, 3));
 							num = stod(simbol);
 						}
+
 						if (num >= 0 and num <= 128) {
 							setShininess(num);
-						}
-						else {
+						} else {
 							cout << "Error! 0 <= X <= 128";
 						}
 
 					}
 				}
 				if (str[i] == ';') {
+					// То же самое
 					if (j == 0) setDiffuse(color);
 					if (j == 1) setAmbient(color);
 					if (j == 2) setSpecular(color);
@@ -130,6 +108,8 @@ void PhongMaterial::load(string filename)
 		}
 	}
 	fin.close();
+
+	// А эт чё?
 	/*cout << this->diffuse.r << " ";
 	cout << this->diffuse.g << " ";
 	cout << this->diffuse.b << " ";
