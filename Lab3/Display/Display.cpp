@@ -13,6 +13,9 @@ double averageFPS = 0;
 double allInterval=0;
 
 void winFPS() {
+
+
+
 	std::ostringstream oss;
 	LARGE_INTEGER current;
 	QueryPerformanceCounter(&current);
@@ -31,7 +34,7 @@ void winFPS() {
 
 		allInterval -= 1;
 
-		averageFPS = allFPS / frameCount;
+		averageFPS = frameCount / allInterval;
 
 		frameCount = 0;
 		allFPS = 0;
