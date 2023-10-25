@@ -11,12 +11,12 @@ void moveCamera(float simulationTime)
 	float SpeedVertical = 130 * simulationTime;
 	float SpeedZoom = 20 * simulationTime;
 
-	if(GetAsyncKeyState(0x57)) camera.rotateUpDown(SpeedVertical);
-	if (GetAsyncKeyState(0x53)) camera.rotateUpDown(-SpeedVertical);
-	if (GetAsyncKeyState(0x41)) camera.rotateLeftRight(SpeedHorizontal);
-	if (GetAsyncKeyState(0x44)) camera.rotateLeftRight(-SpeedHorizontal);
-	if (GetAsyncKeyState(0x45)) camera.zoomInOut(SpeedZoom);
-	if (GetAsyncKeyState(0x51)) camera.zoomInOut(-SpeedZoom);
+	if(GetAsyncKeyState('W')) camera.rotateUpDown(SpeedVertical);
+	if (GetAsyncKeyState('S')) camera.rotateUpDown(-SpeedVertical);
+	if (GetAsyncKeyState('A')) camera.rotateLeftRight(SpeedHorizontal);
+	if (GetAsyncKeyState('D')) camera.rotateLeftRight(-SpeedHorizontal);
+	if (GetAsyncKeyState('E')) camera.zoomInOut(SpeedZoom);
+	if (GetAsyncKeyState('Q')) camera.zoomInOut(-SpeedZoom);
 
 };
 double getSimulationTime() {

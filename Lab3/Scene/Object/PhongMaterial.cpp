@@ -59,31 +59,7 @@ void PhongMaterial::load(string filename)
 			int k = 0;
 			fin >> str;
 			for (int i = 0; i < str.length(); i++) {
-				if (j == 0) {
-					if (str[i] == '.' && (str[i - 1] == '1' || str[i - 1] == '0')) {
-						simbol.append(str.substr(i - 1, 3));
-						color[k] = stod(simbol);
-						simbol = "";
-						k++;
-					}
-				}
-				if (j == 1) {
-					if (str[i] == '.' && (str[i - 1] == '1' || str[i - 1] == '0')) {
-						simbol.append(str.substr(i - 1, 3));
-						color[k] = stod(simbol);
-						simbol = "";
-						k++;
-					}
-				}
-				if (j == 2) {
-					if (str[i] == '.' && (str[i - 1] == '1' || str[i - 1] == '0')) {
-						simbol.append(str.substr(i - 1, 3));
-						color[k] = stod(simbol);
-						simbol = "";
-						k++;
-					}
-				}
-				if (j == 3) {
+				if (j >= 0 && j < 4) {
 					if (str[i] == '.' && (str[i - 1] == '1' || str[i - 1] == '0')) {
 						simbol.append(str.substr(i - 1, 3));
 						color[k] = stod(simbol);

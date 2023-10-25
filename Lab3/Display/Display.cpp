@@ -29,14 +29,15 @@ void winFPS() {
 
 	if (allInterval > 1) {
 
-		allInterval -= 1;
 
-		averageFPS = allFPS / frameCount;
+		//averageFPS = allFPS / frameCount;
+		averageFPS = frameCount / allInterval;
+		allInterval -= 1;
 
 		frameCount = 0;
 		allFPS = 0;
 
-		oss << "Laba_04 [" << averageFPS << " FPS]";
+		oss << "Laba_05 [" << averageFPS << " FPS]";
 		glutSetWindowTitle(oss.str().c_str());
 	}
 
