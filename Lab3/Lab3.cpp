@@ -1,15 +1,20 @@
 ﻿#include <windows.h>
 
-#include "Scene\Object\GraphicObject.h"
+#include "Scene\Object\GraphicObject\GraphicObject.h"
 #include "Scene\Camera\Camera.h"
 #include "Scene\Lighting\Light.h"
 #include "Display\Display.h"
 #include "Display\Simulation.h"
 #include "Data\Data.h"
-#include "Scene\Object\PhongMaterial.h"
+#include "Scene\Object\GraphicObject\Material\PhongMaterial.h"
+#include "Scene\Object\GraphicObject\Mesh\Mesh.h"
+#include "Scene\Object\GameObject.h"
+
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
+
 #include <thread>
 #include <vector>
 #include <algorithm>
@@ -34,6 +39,7 @@ extern Camera camera;
 //extern Light light;
 extern LARGE_INTEGER previous, frequency;
 
+vector<GameObject> GameObjects;
 
 void main(int argc, char** argv)
 {
@@ -49,7 +55,7 @@ void main(int argc, char** argv)
 	glutInitWindowSize(1280, 600);
 	// 3. создаем окно
 	glutCreateWindow("");
-	glutSetWindowTitle("Laba_04 [ ]");
+	glutSetWindowTitle("Laba_06 [ ]");
 	// УСТАНОВКА ФУНКЦИЙ ОБРАТНОГО ВЫЗОВА
 	// устанавливаем функцию, которая будет вызываться для перерисовки окна
 	QueryPerformanceFrequency(&frequency);
@@ -69,34 +75,22 @@ void main(int argc, char** argv)
 	shared_ptr<PhongMaterial> material4 = make_shared<PhongMaterial>();
 	material4->load("Data//materials//material_4.txt");
 
+	mesh->load("Data//meshes//SimplePlane.obj");
 
-	GraphicObject obj1;
-	obj1.setPosition(vec3(4, 0, 0));
-	obj1.setAngle(180);
-	obj1.setСolor(vec3(1, 0, 0));
-	obj1.setMaterial({ material1 });
-	graphicObjects.push_back(obj1);
+	GraphicObject grafObj;
+	grafObj.setPosition(vec3(-1, 0, 0));
+	grafObj.setAngle(0);
+	grafObj.setСolor(vec3(1, 0, 0));
+	grafObj.setMaterial({ material1 });
+	grafObj.setMesh({ mesh });
+	graphicObjects.push_back(grafObj);
 
-	GraphicObject obj2;
-	obj2.setPosition(vec3(-4, 0, 0));
-	obj2.setAngle(0);
-	obj2.setСolor(vec3(0, 0, 1));
-	obj2.setMaterial({ material2 });
-	graphicObjects.push_back(obj2);
 
-	GraphicObject obj3;
-	obj3.setPosition(vec3(0, 0, -4));
-	obj3.setAngle(270);
-	obj3.setСolor(vec3(0.2, 1, 0));
-	obj3.setMaterial({ material3 });
-	graphicObjects.push_back(obj3);
+	/*GameObject gameObj;
+	gameObj.setPosition(ivec2(10, 10));
+	gameObj.setGraphicObject(graphicObjects[0]);
+	gameObj.draw();*/
 	
-	GraphicObject obj4;
-	obj4.setPosition(vec3(0, 0, 4));
-	obj4.setAngle(90);
-	obj4.setСolor(vec3(1, 1, 1));
-	obj4.setMaterial({ material4 });
-	graphicObjects.push_back(obj4);
 	
 	glutIdleFunc(simulation);
 
@@ -112,3 +106,5 @@ void main(int argc, char** argv)
 	// основной цикл обработки сообщений ОС
 	glutMainLoop();
 };
+
+

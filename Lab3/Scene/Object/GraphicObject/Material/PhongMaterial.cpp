@@ -53,7 +53,7 @@ void PhongMaterial::load(string filename)
 		//cout << "Fail Open!\n";
 		int j = 0;
 		string str;
-		vec4 color;
+		vec4 color{};
 		string simbol = "";
 		while (!fin.eof()) {
 			int k = 0;

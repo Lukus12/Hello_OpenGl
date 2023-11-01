@@ -1,7 +1,6 @@
 #include "GraphicObject.h"
-GraphicObject::GraphicObject() {
 
-}
+
 void GraphicObject::setPosition(vec3 position) {
 	this->position = position;
 }
@@ -36,6 +35,11 @@ void GraphicObject::setMaterial(const std::vector<std::shared_ptr<PhongMaterial>
 	this->material = material;
 }
 
+void GraphicObject::setMesh(shared_ptr<Mesh> mesh)
+{
+	this->mesh = mesh;
+}
+
 // גûגוסעט מבתוךע
 void GraphicObject::draw() {
 	recalculateModelMatrix();
@@ -49,7 +53,12 @@ void GraphicObject::draw() {
 			material->apply();
 		}
 	}
+
+	if (mesh != nullptr) {
+		mesh->draw();
+	}
+
 	//glutWireTeapot(1.0);
-	glutSolidTeapot(1.0);
+	//glutSolidTeapot(1.0);
 	glPopMatrix();
 }

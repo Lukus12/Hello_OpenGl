@@ -15,7 +15,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "PhongMaterial.h"
+#include "Material/PhongMaterial.h"
+#include "Mesh/Mesh.h"
 
 using namespace glm;
 using namespace std;
@@ -23,7 +24,6 @@ using namespace std;
 class GraphicObject
 {
 public:
-	GraphicObject();
 	// Установка и получение позиции объекта
 	void setPosition(vec3 position);
 	vec3 getPosition();
@@ -37,6 +37,8 @@ public:
 	vec3 getColor();
 	// Установка используемого материала
 	void setMaterial(const vector<shared_ptr<PhongMaterial>>& material);
+	// Установка используемого меша
+	void setMesh(shared_ptr<Mesh> mesh);
 	// Вывести объект
 	void draw();
 private:
@@ -50,6 +52,8 @@ private:
 	mat4 modelMatrix;
 	// Используемый материал
 	vector<shared_ptr<PhongMaterial>> material;
+	// Используемый меш
+	shared_ptr<Mesh> mesh;
 
 private:
 	// расчет матрицы modelMatrix на основе position и angle

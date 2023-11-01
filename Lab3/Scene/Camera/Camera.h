@@ -4,7 +4,7 @@
 #include <vector>
 #include "GL/freeglut.h"
 #include <glm/glm.hpp>
-#include "..\Scene\Object\GraphicObject.h"
+#include "..\Scene\Object\GraphicObject\GraphicObject.h"
 
 class Camera
 {

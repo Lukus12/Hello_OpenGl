@@ -148,8 +148,10 @@
     <ClCompile Include="Lab3.cpp" />
     <ClCompile Include="Scene\Camera\Camera.cpp" />
     <ClCompile Include="Scene\Lighting\Light.cpp" />
-    <ClCompile Include="Scene\Object\GraphicObject.cpp" />
-    <ClCompile Include="Scene\Object\PhongMaterial.cpp" />
+    <ClCompile Include="Scene\Object\GameObject.cpp" />
+    <ClCompile Include="Scene\Object\GraphicObject\GraphicObject.cpp" />
+    <ClCompile Include="Scene\Object\GraphicObject\Material\PhongMaterial.cpp" />
+    <ClCompile Include="Scene\Object\GraphicObject\Mesh\Mesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Data\Data.h" />
@@ -157,8 +159,10 @@
     <ClInclude Include="Display\Simulation.h" />
     <ClInclude Include="Scene\Camera\Camera.h" />
     <ClInclude Include="Scene\Lighting\Light.h" />
-    <ClInclude Include="Scene\Object\GraphicObject.h" />
-    <ClInclude Include="Scene\Object\PhongMaterial.h" />
+    <ClInclude Include="Scene\Object\GameObject.h" />
+    <ClInclude Include="Scene\Object\GraphicObject\GraphicObject.h" />
+    <ClInclude Include="Scene\Object\GraphicObject\Material\PhongMaterial.h" />
+    <ClInclude Include="Scene\Object\GraphicObject\Mesh\Mesh.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,11 +2,12 @@
 #include "Display.h"
 
 
+
 extern LARGE_INTEGER previous, frequency;
 
 int frameCount = 0;
 double interval, fps; 
-double allFPS = 0;
+//double allFPS = 0;
 double averageFPS = 0;
 //считать результаты fps через их сумму и поделить на их кол-во спустя 1000 миллисек(сумма интервалов)
 
@@ -22,8 +23,8 @@ void winFPS() {
 
 	previous = current;
 
-	fps = 1.0 / interval;
-	allFPS += fps;
+	//fps = 1.0 / interval;
+	//allFPS += fps;
 
 	frameCount++;
 
@@ -35,9 +36,9 @@ void winFPS() {
 		allInterval -= 1;
 
 		frameCount = 0;
-		allFPS = 0;
+		//allFPS = 0;
 
-		oss << "Laba_05 [" << averageFPS << " FPS]";
+		oss << "Laba_06 [" << averageFPS << " FPS]";
 		glutSetWindowTitle(oss.str().c_str());
 	}
 
@@ -62,7 +63,15 @@ void display(void)
 	for (auto& go : graphicObjects) {
 		go.draw();
 	}
-	
+
+	mesh->draw();
+
+	for (int i = 0; i < 21; i++) {
+		for (int j = 0; j < 21; j++) {
+			if (mapObjects[i][j] != nullptr) (*mapObjects[i][j]).draw();
+		}
+	}
+
 	winFPS();
 	
 	// смена переднего и заднего буферов
