@@ -22,7 +22,7 @@ class GameObject
 public:
 	// установка используемого графического объекта
 	// происходит копирование переданного объекта для последующего использования
-	void setGraphicObject(const GraphicObject& graphicObject);
+	void setGraphicObject(shared_ptr<GraphicObject> graphicObject);
 	// установка логических координат (два перегруженных метода для удобства)
 	void setPosition(int x, int y);
 	void setPosition(int x, int y, float z);
@@ -37,5 +37,5 @@ private:
 	// логические координаты игрового объекта
 	ivec2 position;
 	// графический объект (для вывода на экран)
-	GraphicObject graphicObject;
+	shared_ptr<GraphicObject> graphicObject;
 };

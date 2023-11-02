@@ -121,10 +121,10 @@ struct CVertex2 {
 
 void Mesh::draw(){
 
-	CVertex3 v[6];
-	CVertex3 vn[6];
-	CVertex2 vt[6];
-	for (int i = 0; i < 6; i++) {
+	CVertex3 v[100] = {};
+	CVertex3 vn[100] = {};
+	CVertex2 vt[100] = {};
+	for (int i = 0; i < vertices.size(); i++) {
 		v[i].x = vertices[i].coord[0];
 		v[i].y = vertices[i].coord[1];
 		v[i].z = vertices[i].coord[2];

@@ -58,19 +58,22 @@ void display(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	camera.apply();
-	light.apply(GL_LIGHT0);
-	// выводим все графические объекты
+	light1.apply(GL_LIGHT0);
+	//light2.apply(GL_LIGHT0); // x 25 сзади
+	//light3.apply(GL_LIGHT0); // z 25 слева
+	//light4.apply(GL_LIGHT1); // x -25 спереди
+	//light5.apply(GL_LIGHT0); // z -25 справа
+		// выводим все графические объекты
 	for (auto& go : graphicObjects) {
-		go.draw();
+		go->draw();
 	}
 
-	mesh->draw();
 
-	for (int i = 0; i < 21; i++) {
+	/*for (int i = 0; i < 21; i++) {
 		for (int j = 0; j < 21; j++) {
 			if (mapObjects[i][j] != nullptr) (*mapObjects[i][j]).draw();
 		}
-	}
+	}*/
 
 	winFPS();
 	

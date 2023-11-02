@@ -7,14 +7,17 @@ using namespace std;
 LARGE_INTEGER previous, frequency;
 
 // список графических объектов
-vector<GraphicObject> graphicObjects;
+vector<shared_ptr<GraphicObject>>graphicObjects;
 
 // используемая камера
-Camera camera(10, 15, 17.5);
+Camera camera(20, 15, 27.5);
 
 // источник света
-Light light(0,10,0);
-
+Light light1(0,10,0);
+Light light2(25, 10, 0);
+Light light3(0, 10, 25);
+Light light4(-25, 10, 0);
+Light light5(0, 10, -25);
 /*struct Vertex
 {
 	// геометрические координаты
@@ -57,7 +60,10 @@ GraphicObject planeGraphicObject;
 vector<shared_ptr<PhongMaterial>> materials;
 // используемые меши
 vector<shared_ptr<Mesh>> meshes;
-shared_ptr<Mesh> mesh = make_shared<Mesh>();
+shared_ptr<Mesh> meshPole = make_shared<Mesh>();
+shared_ptr<Mesh> meshBox = make_shared<Mesh>();
+shared_ptr<Mesh> meshChamferBox = make_shared<Mesh>();
+shared_ptr<Mesh> meshSphere = make_shared<Mesh>();
 
 void initData()
 {

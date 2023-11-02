@@ -34,7 +34,7 @@
 using namespace std;
 using namespace glm;
 
-extern vector<GraphicObject> graphicObjects;
+
 extern Camera camera;
 //extern Light light;
 extern LARGE_INTEGER previous, frequency;
@@ -75,23 +75,51 @@ void main(int argc, char** argv)
 	shared_ptr<PhongMaterial> material4 = make_shared<PhongMaterial>();
 	material4->load("Data//materials//material_4.txt");
 
-	mesh->load("Data//meshes//SimplePlane.obj");
+	meshPole->load("Data//meshes//SimplePlane.obj");
+	meshBox->load("Data//meshes//Box.obj");
+	//meshChamferBox->load("Data//meshes//ChamferBox.obj");
 
-	GraphicObject grafObj;
-	grafObj.setPosition(vec3(-1, 0, 0));
-	grafObj.setAngle(0);
-	grafObj.setСolor(vec3(1, 0, 0));
-	grafObj.setMaterial({ material1 });
-	grafObj.setMesh({ mesh });
-	graphicObjects.push_back(grafObj);
+	shared_ptr<GraphicObject> Pole = shared_ptr<GraphicObject>(new GraphicObject());
+	Pole->setPosition(vec3(0, -0.5, 0));
+	Pole->setAngle(0);
+	Pole->setСolor(vec3(1, 0, 0));
+	Pole->setMaterial({ material1 });
+	Pole->setMesh({ meshPole });
+	graphicObjects.push_back(Pole);
+
+	GameObject gamePole;
+	gamePole.setGraphicObject(graphicObjects[0]);
+	gamePole.draw();
 
 
-	/*GameObject gameObj;
-	gameObj.setPosition(ivec2(10, 10));
-	gameObj.setGraphicObject(graphicObjects[0]);
-	gameObj.draw();*/
-	
-	
+	for (int i = 0; i < 21; i++) {
+		for (int j = 0; j < 21; j++) {
+
+			shared_ptr<GraphicObject> grafObj = shared_ptr<GraphicObject>(new GraphicObject());
+			switch (passabilityMap[i][j]) {
+			case 1:
+				grafObj->setMaterial({ material2 });
+				break;
+			case 2:
+				grafObj->setMaterial({ material3 });
+				break;
+			case 3:
+				grafObj->setMaterial({ material4 });
+				break;
+			default:
+				continue;
+				//break;
+			}
+			grafObj->setMesh({ meshBox });
+			graphicObjects.push_back(grafObj);
+
+			GameObject gameObj;
+			gameObj.setGraphicObject(graphicObjects.back());
+			gameObj.setPosition(ivec2(j, i));
+			gameObj.draw();
+		}
+	}
+
 	glutIdleFunc(simulation);
 
 	//включение механизма расчета освещения
@@ -101,7 +129,6 @@ void main(int argc, char** argv)
 
 	//Установка параметров источника света. 
 	glEnable(GL_LIGHT0);
-
 
 	// основной цикл обработки сообщений ОС
 	glutMainLoop();
