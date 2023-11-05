@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Lab3\freeglut\include;C:\Lessons\АОРГ\Lab3\Lab3\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Lab3\freeglut\include;$(SolutionDir)Lab3\glm; $(SolutionDir)Lab3\Tencent_rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -149,6 +149,7 @@
     <ClCompile Include="Scene\Camera\Camera.cpp" />
     <ClCompile Include="Scene\Lighting\Light.cpp" />
     <ClCompile Include="Scene\Object\GameObject.cpp" />
+    <ClCompile Include="Scene\Object\GameObjectFactory.cpp" />
     <ClCompile Include="Scene\Object\GraphicObject\GraphicObject.cpp" />
     <ClCompile Include="Scene\Object\GraphicObject\Material\PhongMaterial.cpp" />
     <ClCompile Include="Scene\Object\GraphicObject\Mesh\Mesh.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="Scene\Camera\Camera.h" />
     <ClInclude Include="Scene\Lighting\Light.h" />
     <ClInclude Include="Scene\Object\GameObject.h" />
+    <ClInclude Include="Scene\Object\GameObjectFactory.h" />
     <ClInclude Include="Scene\Object\GraphicObject\GraphicObject.h" />
     <ClInclude Include="Scene\Object\GraphicObject\Material\PhongMaterial.h" />
     <ClInclude Include="Scene\Object\GraphicObject\Mesh\Mesh.h" />

@@ -19,7 +19,6 @@
 #include <vector>
 #include <algorithm>
 #include <string>
-#include <memory>
 
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -28,6 +27,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+#include "rapidjson/document.h"
 
 
 // используем пространство имен стандартной библиотеки
@@ -63,62 +64,8 @@ void main(int argc, char** argv)
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
 
-	shared_ptr<PhongMaterial> material1 = make_shared<PhongMaterial>();
-	material1->load("Data//materials//material_1.txt");
 
-	shared_ptr<PhongMaterial> material2 = make_shared<PhongMaterial>();
-	material2->load("Data//materials//material_2.txt");
-
-	shared_ptr<PhongMaterial> material3 = make_shared<PhongMaterial>();
-	material3->load("Data//materials//material_3.txt");
-
-	shared_ptr<PhongMaterial> material4 = make_shared<PhongMaterial>();
-	material4->load("Data//materials//material_4.txt");
-
-	meshPole->load("Data//meshes//SimplePlane.obj");
-	meshBox->load("Data//meshes//Box.obj");
-	//meshChamferBox->load("Data//meshes//ChamferBox.obj");
-
-	shared_ptr<GraphicObject> Pole = shared_ptr<GraphicObject>(new GraphicObject());
-	Pole->setPosition(vec3(0, -0.5, 0));
-	Pole->setAngle(0);
-	Pole->setСolor(vec3(1, 0, 0));
-	Pole->setMaterial({ material1 });
-	Pole->setMesh({ meshPole });
-	graphicObjects.push_back(Pole);
-
-	GameObject gamePole;
-	gamePole.setGraphicObject(graphicObjects[0]);
-	gamePole.draw();
-
-
-	for (int i = 0; i < 21; i++) {
-		for (int j = 0; j < 21; j++) {
-
-			shared_ptr<GraphicObject> grafObj = shared_ptr<GraphicObject>(new GraphicObject());
-			switch (passabilityMap[i][j]) {
-			case 1:
-				grafObj->setMaterial({ material2 });
-				break;
-			case 2:
-				grafObj->setMaterial({ material3 });
-				break;
-			case 3:
-				grafObj->setMaterial({ material4 });
-				break;
-			default:
-				continue;
-				//break;
-			}
-			grafObj->setMesh({ meshBox });
-			graphicObjects.push_back(grafObj);
-
-			GameObject gameObj;
-			gameObj.setGraphicObject(graphicObjects.back());
-			gameObj.setPosition(ivec2(j, i));
-			gameObj.draw();
-		}
-	}
+	initData();
 
 	glutIdleFunc(simulation);
 

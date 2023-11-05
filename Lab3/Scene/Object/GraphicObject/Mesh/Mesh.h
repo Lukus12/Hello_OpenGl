@@ -7,6 +7,8 @@
 
 #include <vector>
 #include <string>
+#include <map>
+#include <algorithm>
 
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -39,5 +41,6 @@ public:
 private:
 	// массив вершин полигональной сетки
 	vector<Vertex> vertices;
-
+	// массив индексов
+	vector<GLuint> indices;
 };

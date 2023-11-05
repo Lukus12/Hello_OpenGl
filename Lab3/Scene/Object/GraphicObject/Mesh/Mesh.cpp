@@ -1,5 +1,6 @@
 #include "..\Mesh\Mesh.h"
 
+
 using namespace std;
 using namespace glm;
 
@@ -13,6 +14,10 @@ void Mesh::load(string filename)
 	vector<vec2> textura;
 	// вектор для хранения индексов атрибутов, для построения вершин
 	vector<ivec3> fPoints;
+	// отображение вершины (по используемым ею атрибутам) на индекс в массиве вершин
+	map<string, int> vertexToIndexTable;
+
+	int index = 0;
 
 	ifstream fin;
 	fin.open(filename);
@@ -46,19 +51,17 @@ void Mesh::load(string filename)
 			}
 			if (str[0] == 'f') {
 				ivec3 fCord{};
-				string simbol = "";
+				/*string simbol = "";
 				int k = 0;
 				for (int i = 2; i < str.length() + 1; i++) {
 					if (str[i] == '/') {
 						if (k == 0) {
 							simbol.append(str.substr(i - 1, 1));
 							fCord[0] = stod(simbol);
-							//cout << "fCord1: "<< fCord[0] << " ";
 							simbol = "";
 
 							simbol.append(str.substr(i + 1, 1));
 							fCord[1] = stod(simbol);
-							//cout << "fCord2: " << fCord[1] << " ";
 							simbol = "";
 
 							k++;
@@ -67,20 +70,43 @@ void Mesh::load(string filename)
 							k = 0;
 							simbol.append(str.substr(i + 1, 1));
 							fCord[2] = stod(simbol);
-							//cout << "fCord3: " << fCord[2] <<" || ";
 							simbol = "";
 							fPoints.push_back(fCord);
 						}
 					}
-
-					//cout << str[i];
+				}*/
+				istringstream strNew(str);
+				string strSub;
+				for (int i = 0; i < 3; i++) {
+					strNew >> strSub;
+					if(strSub[0] == 'f') strNew >> strSub;
+					//cout << strSub << endl;
+					auto iterator = vertexToIndexTable.find(strSub);
+					if (iterator == vertexToIndexTable.end()) {
+						vertexToIndexTable[strSub] = index;
+						indices.push_back(index);
+						
+						replace(strSub.begin(), strSub.end(), '/', ' ');
+						//cout << strSub << endl;
+						istringstream subSubSr(strSub);
+						subSubSr >> fCord[0] >> fCord[1] >> fCord[2];
+						//cout << endl;
+						//cout << fCord[0] << " " << fCord[1] << " " << fCord[2] << endl;
+						fPoints.push_back(fCord);
+						
+						index++;
+					}
+					else {
+						int pastIndex = (*iterator).second;
+						indices.push_back(pastIndex);
+					}
 				}
-				cout << endl;
+				//cout << endl;
+				
 			}
 		}
 		fin.close();
 	}
-
 
 	/*cout << fPoints[0][0] << " " << fPoints[0][1] << " " << fPoints[0][2] << " | ";
 	cout << fPoints[1][0] << " " << fPoints[1][1] << " " << fPoints[1][2] << " | ";
@@ -119,11 +145,19 @@ struct CVertex2 {
 	float y;
 };
 
+struct CFace {
+	int v1, v2, v3;
+};
+
 void Mesh::draw(){
 
-	CVertex3 v[100] = {};
-	CVertex3 vn[100] = {};
-	CVertex2 vt[100] = {};
+	CFace face[5000] = {};
+
+	CVertex3 v[5000] = {};
+	CVertex3 vn[5000] = {};
+	CVertex2 vt[5000] = {};
+
+
 	for (int i = 0; i < vertices.size(); i++) {
 		v[i].x = vertices[i].coord[0];
 		v[i].y = vertices[i].coord[1];
@@ -137,6 +171,12 @@ void Mesh::draw(){
 		vt[i].y = vertices[i].texCoord[1];
 	}
 
+	for (int i = 0; i < indices.size() / 3; i++) {
+			face[i].v1 = indices[i*3 + 0];
+			face[i].v2 = indices[i*3 + 1];
+			face[i].v3 = indices[i*3 + 2];
+	}
+
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -145,7 +185,8 @@ void Mesh::draw(){
 	glNormalPointer(GL_FLOAT, sizeof(CVertex3), vn);
 	glTexCoordPointer(2, GL_FLOAT, sizeof(CVertex2), vt);
 
-	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+	//glDrawArrays(GL_TRIANGLES, 0, indices.size());
+	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, face);
 
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
