@@ -51,9 +51,9 @@ void Mesh::load(string filename)
 			}
 			if (str[0] == 'f') {
 				ivec3 fCord{};
-				/*string simbol = "";
+				string simbol = "";
 				int k = 0;
-				for (int i = 2; i < str.length() + 1; i++) {
+				/*for (int i = 2; i < str.length() + 1; i++) {
 					if (str[i] == '/') {
 						if (k == 0) {
 							simbol.append(str.substr(i - 1, 1));
@@ -94,6 +94,7 @@ void Mesh::load(string filename)
 						//cout << fCord[0] << " " << fCord[1] << " " << fCord[2] << endl;
 						fPoints.push_back(fCord);
 						
+						
 						index++;
 					}
 					else {
@@ -110,11 +111,10 @@ void Mesh::load(string filename)
 
 	/*cout << fPoints[0][0] << " " << fPoints[0][1] << " " << fPoints[0][2] << " | ";
 	cout << fPoints[1][0] << " " << fPoints[1][1] << " " << fPoints[1][2] << " | ";
-	cout << fPoints[2][0] << " " << fPoints[2][1] << " " << fPoints[2][2] << endl;
-	cout << fPoints[3][0] << " " << fPoints[3][1] << " " << fPoints[3][2] << " | ";
-	cout << fPoints[4][0] << " " << fPoints[4][1] << " " << fPoints[4][2] << " | ";
-	cout << fPoints[5][0] << " " << fPoints[5][1] << " " << fPoints[5][2] << endl;
-	*/
+	cout << fPoints[2][0] << " " << fPoints[2][1] << " " << fPoints[2][2] << " | ";
+	cout << fPoints[3][0] << " " << fPoints[3][1] << " " << fPoints[3][2] << endl;*/
+	
+	
 
 
 	for (int i = 0; i < fPoints.size(); i++) {

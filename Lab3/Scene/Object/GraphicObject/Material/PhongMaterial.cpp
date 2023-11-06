@@ -1,7 +1,7 @@
 #include "PhongMaterial.h"
 
 using namespace std;
-
+using namespace rapidjson;
 
 
 void PhongMaterial::setAmbient(vec4 color)
@@ -41,8 +41,7 @@ void PhongMaterial::setShininess(float p)
 	this->shininess = p;
 }
 
-void PhongMaterial::load(string filename)
-{
+void PhongMaterial::load(string filename) {
 	ifstream fin;
 	fin.open(filename);
 
@@ -54,76 +53,50 @@ void PhongMaterial::load(string filename)
 		int j = 0;
 		string str;
 		vec4 color{};
+		float value;
 		string simbol = "";
-		while (!fin.eof()) {
-			int k = 0;
-			fin >> str;
-			for (int i = 0; i < str.length(); i++) {
-				if (j >= 0 && j < 4) {
-					if (str[i] == '.' && (str[i - 1] == '1' || str[i - 1] == '0')) {
-						simbol.append(str.substr(i - 1, 3));
-						color[k] = stod(simbol);
-						simbol = "";
-						k++;
-					}
-				}
-				if (j == 4) {
-					float num;
-					if (str[i] == '.' and (int(str[i - 1]) >= 48 and int(str[i - 1]) <= 57)) {
-						if (int(str[i - 2]) >= 48 and int(str[i - 2]) <= 57) {
-							if (int(str[i - 3]) >= 48 and int(str[i - 3]) <= 57) {
-								simbol.append(str.substr(i - 3, 5));
-								num = stod(simbol);
-							}
-							else {
-								simbol.append(str.substr(i - 2, 4));
-								num = stod(simbol);
-							}
-						}
-						else {
-							simbol.append(str.substr(i - 1, 3));
-							num = stod(simbol);
-						}
-						if (num >= 0 and num <= 128) {
-							setShininess(num);
-						}
-						else {
-							cout << "Error! 0 <= X <= 128";
-						}
 
-					}
+		while (getline(fin, str)) {
+			istringstream strNew(str);
+			string view;
+
+			strNew >> view;
+			if (view != "shininess:") {
+				strNew >> color[0] >> color[1] >> color[2];
+				if (view == "diffuse:") {
+					setDiffuse(color);
 				}
-				if (str[i] == ';') {
-					if (j == 0) setDiffuse(color);
-					if (j == 1) setAmbient(color);
-					if (j == 2) setSpecular(color);
-					if (j == 3) setEmission(color);
-					color = {};
-					j++;
+				if (view == "ambient:") {
+					setAmbient(color);
 				}
+				if (view == "specular:") {
+					setSpecular(color);
+				}
+				if (view == "emission:") {
+					setEmission(color);
+				}
+				color = {};
 			}
-			//cout << str << endl;
+			if (view == "shininess:") {
+				strNew >> value;
+				setShininess(value);
+				value = {};
+			}
 		}
+
 	}
 	fin.close();
-	/*cout << this->diffuse.r << " ";
-	cout << this->diffuse.g << " ";
-	cout << this->diffuse.b << " ";
-	cout << this->diffuse.w << endl;
-	cout << this->ambient.r << " ";
-	cout << this->ambient.g << " ";
-	cout << this->ambient.b << " ";
-	cout << this->ambient.w << endl;
-	cout << this->specular.r << " ";
-	cout << this->specular.g << " ";
-	cout << this->specular.b << " ";
-	cout << this->specular.w << endl;
-	cout << this->emission.r << " ";
-	cout << this->emission.g << " ";
-	cout << this->emission.b << " ";
-	cout << this->emission.w << endl;
-	cout << this->shininess << endl;*/
 }
+
+void PhongMaterial::load(Material value)
+{
+	setDiffuse(value.Diffuse);
+	setAmbient(value.Ambient);
+	setSpecular(value.Specular);
+	setEmission(value.Emission);
+	setShininess(value.Shininess);
+}
+
 
 void PhongMaterial::apply()
 {

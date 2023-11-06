@@ -4,25 +4,84 @@ using namespace std;
 using namespace glm;
 using namespace rapidjson;
 
-void GameObjectFactory::init()
+void GameObjectFactory::init(std::string filename)
 {
-	for (int i = 0; i < 4; i++) {
-		shared_ptr<PhongMaterial> material = make_shared<PhongMaterial>();
-		if (i == 0) material->load("Data//materials//material_2.txt");
-		if (i == 1) material->load("Data//materials//material_3.txt");
-		if (i == 2) material->load("Data//materials//material_4.txt");
-		if (i == 3) material->load("Data//materials//material_Player.txt");
-		//if (i == 3) material->load("Data//materials//material_5.txt");
-		materials.push_back(material);
+	Material materialchik{};
+	vec4 color = {};
+	float val = 0;
+	ifstream f(filename);
+	if (!f.is_open()) {
+		cout << "Fail!\n";
 	}
-
-	for (int i = 0; i < 4; i++) {
-		shared_ptr<Mesh> mesh = make_shared<Mesh>();
-		if (i >=0 and i<=2) mesh->load("Data//meshes//Box.obj");
-		if (i == 3) mesh->load("Data//meshes//Sphere.obj");
-		meshes.push_back(mesh);
+	// загружаем весь исходный текст (до разделителя - нулевого символа)
+	//cout << "Pars " << filename << ":\n";
+	string jsonString;
+	getline(f, jsonString, static_cast<char>(0));
+	f.close();
+	// выводим считанную строку для отладки
+	//cout << jsonString << endl;
+	// парсим - если ошибка, то выходим
+	Document document;
+	document.Parse(jsonString.c_str());
+	if (document.GetParseError() != 0) {
+		cout << "Invalid file format!\n";
 	}
+	
+	for (auto& member : document.GetObject()) {
+		//cout << member.name.GetString() << " : \n";
+		//string nameType = member.name.GetString();
+		if (member.value.IsObject()) {
+			for (auto itr = member.value.MemberBegin(); itr != member.value.MemberEnd(); ++itr) {
+				//cout << itr->name.GetString() << " : ";
+				if (itr->value.IsString()) {
+					shared_ptr<Mesh> mesh = make_shared<Mesh>();
+					mesh->load(itr->value.GetString());
+					meshes.push_back(mesh);
+					//cout << "mesh load\n";
+				}
+				else {
+					if (itr->value.IsObject()) {
+						//cout << endl;
+						for (auto materialType = itr->value.MemberBegin(); materialType != itr->value.MemberEnd(); ++materialType) {
+							//cout << materialType->name.GetString() << " : ";
+							if (materialType->value.IsArray()) {
+								//cout << materialType->name.GetString() << " : ";
+								string nameTypeMaterial = materialType->name.GetString();
+								//cout << nameTypeMaterial << " : ";
 
+								if (nameTypeMaterial != "shininess") {
+									color[0] = materialType->value[0].GetFloat();
+									color[1] = materialType->value[1].GetFloat();
+									color[2] = materialType->value[2].GetFloat();
+									color[3] = materialType->value[3].GetFloat();
+									if (nameTypeMaterial == "diffuse") {
+										materialchik.Diffuse = color;
+									}
+									if (nameTypeMaterial == "ambient") {
+										materialchik.Ambient = color;
+									}
+									if (nameTypeMaterial == "specular") {
+										materialchik.Specular = color;
+									}
+									if (nameTypeMaterial == "emission") {
+										materialchik.Emission = color;
+									}
+									color = {};
+								}
+							}
+							else {
+								materialchik.Shininess = materialType->value.GetFloat();
+								shared_ptr<PhongMaterial> material = make_shared<PhongMaterial>();
+								material->load(materialchik);
+								materials.push_back(material);
+							}
+						}
+						//cout << endl;
+					}
+				}
+			}
+		}
+	}
 }
 
 std::shared_ptr<GameObject> GameObjectFactory::create(GameObjectType type, int x, int y, int z)
@@ -30,6 +89,9 @@ std::shared_ptr<GameObject> GameObjectFactory::create(GameObjectType type, int x
 	int index{};
 	switch (type)
 	{
+	case GameObjectType::BOMB:
+		index = 4;
+		break;
 	case GameObjectType::BORDER_OBJECT:
 		index = 2;
 		break;
@@ -40,7 +102,7 @@ std::shared_ptr<GameObject> GameObjectFactory::create(GameObjectType type, int x
 		index = 0;
 		break;
 	case GameObjectType::MONSTER:
-		index = 4;
+		index = 5;
 		break;
 	case GameObjectType::PLAYER:
 		index = 3;
@@ -55,7 +117,7 @@ std::shared_ptr<GameObject> GameObjectFactory::create(GameObjectType type, int x
 	shared_ptr<GameObject> GameObj(new GameObject);
 	(*GameObj).setGraphicObject(graphicObjects.back());
 	(*GameObj).setPosition(vec3(y, x, z));
-	(*GameObj).draw();
+	
 
 	return GameObj;
 }

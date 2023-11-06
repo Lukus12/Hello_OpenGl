@@ -24,6 +24,7 @@
 using namespace rapidjson;
 using namespace std;
 
+
 // ОПРЕДЕЛЕНИЕ ТИПОВ ИГРОВЫХ ОБЪЕКТОВ 
 enum class GameObjectType {
 	LIGHT_OBJECT, // легкий игровой объект
@@ -39,7 +40,7 @@ class GameObjectFactory
 {
 public:
 	// инициализация фабрики (загрузка мешей и установка параметров материала)
-	void init();
+	void init(std::string filename);
 	// создание нового объекта заданного типа
 	std::shared_ptr<GameObject> create(GameObjectType type, int x, int y, int z = 0);
 private:

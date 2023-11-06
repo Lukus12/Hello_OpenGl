@@ -58,54 +58,20 @@ GameObjectFactory gameObjectFactory;
 // игрок
 shared_ptr<GameObject> player;
 
-
 void initData()
 {
-
-	//meshChamferBox->load("Data//meshes//ChamferBox.obj");
-
-	/*
-
-	for (int i = 0; i < 21; i++) {
-		for (int j = 0; j < 21; j++) {
-
-			shared_ptr<GraphicObject> grafObj = shared_ptr<GraphicObject>(new GraphicObject());
-			switch (passabilityMap[i][j]) {
-			case 1:
-				grafObj->setMaterial({ material2 });
-				break;
-			case 2:
-				grafObj->setMaterial({ material3 });
-				break;
-			case 3:
-				grafObj->setMaterial({ material4 });
-				break;
-			default:
-				continue;
-				//break;
-			}
-			grafObj->setMesh({ meshBox });
-			graphicObjects.push_back(grafObj);
-
-			GameObject gameObj;
-			gameObj.setGraphicObject(graphicObjects.back());
-			gameObj.setPosition(ivec2(j, i));
-			gameObj.draw();
-		}
-	}*/
 	// инициализация фабрики (в дальнейшем на основе json-файла)
-	gameObjectFactory.init();
+	gameObjectFactory.init("Data//GameObjectsDescription.json");
 
 	// игровое поле
-	shared_ptr<PhongMaterial> material = make_shared<PhongMaterial>();
-	material->load("Data//materials//material_1.txt");
-
+	shared_ptr<PhongMaterial> materialPole = make_shared<PhongMaterial>();
+	materialPole->load("Data//materials//material_1.txt");
 	shared_ptr<Mesh> meshPole = make_shared<Mesh>();
 	meshPole->load("Data//meshes//SimplePlane.obj");
 
 	shared_ptr<GraphicObject> Pole = shared_ptr<GraphicObject>(new GraphicObject());
 	Pole->setPosition(vec3(0, -0.5, 0));
-	Pole->setMaterial({ material });
+	Pole->setMaterial({ materialPole });
 	Pole->setMesh({ meshPole });
 	graphicObjects.push_back(Pole);
 

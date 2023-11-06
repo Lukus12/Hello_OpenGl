@@ -32,6 +32,4 @@ extern shared_ptr<GameObject> mapObjects[21][21];
 
 extern LARGE_INTEGER current, previous, frequency, end;
 
-
-
 void initData();
