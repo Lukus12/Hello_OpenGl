@@ -1,6 +1,8 @@
 #pragma once
 #include <Windows.h>
 
+#include "GL/glew.h"
+
 #include <iostream>
 #include <fstream>
 #include <sstream>

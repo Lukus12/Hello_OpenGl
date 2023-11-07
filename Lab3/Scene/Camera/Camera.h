@@ -1,9 +1,15 @@
 #pragma once
 
 #include <windows.h>
+
+#include "GL/glew.h"
+
 #include <vector>
+
 #include "GL/freeglut.h"
+
 #include <glm/glm.hpp>
+
 #include "../Object/GraphicObject/GraphicObject.h"
 
 class Camera

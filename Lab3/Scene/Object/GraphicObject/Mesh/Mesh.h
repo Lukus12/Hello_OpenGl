@@ -1,6 +1,9 @@
 #pragma once
 
 #include <windows.h>
+
+#include "GL/glew.h"
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -9,8 +12,6 @@
 #include <string>
 #include <map>
 #include <algorithm>
-
-#include "GL/glew.h"
 
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -41,10 +42,8 @@ public:
 	// вывод меша (передача всех вершин в OpenGL)
 	void draw();
 private:
-	// массив вершин полигональной сетки
-	vector<Vertex> vertices;
-	// массив индексов
-	vector<GLuint> indices;
-	//буферы
+	// количество индексов 
+	int indexCount;
+	// индексы (идентификаторы) буферов OpenGL
 	GLuint bufferIds[2];
 };

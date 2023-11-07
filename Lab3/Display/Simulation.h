@@ -1,6 +1,11 @@
 #pragma once
-#include "..\Data\Data.h"
+
 #include <iostream>
+
+#include "GL/glew.h"
+
+#include "..\Data\Data.h"
+
 
 void simulation();
 void moveCamera(float simulationTime);

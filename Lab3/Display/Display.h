@@ -1,12 +1,17 @@
 #pragma once
 
 #include <windows.h>
+
+#include "GL/glew.h"
+
 #include <algorithm>
 #include <stdio.h>
 #include <iostream>
+
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include "GL/freeglut.h"
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
