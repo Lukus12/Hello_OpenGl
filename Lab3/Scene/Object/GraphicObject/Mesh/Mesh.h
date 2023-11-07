@@ -10,6 +10,8 @@
 #include <map>
 #include <algorithm>
 
+#include "GL/glew.h"
+
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include "GL/freeglut.h"
@@ -43,4 +45,6 @@ private:
 	vector<Vertex> vertices;
 	// массив индексов
 	vector<GLuint> indices;
+	//буферы
+	GLuint bufferIds[2];
 };
