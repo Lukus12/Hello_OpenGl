@@ -1,15 +1,6 @@
 ﻿#include <windows.h>
 
-#include "Scene\Object\GraphicObject\GraphicObject.h"
-#include "Scene\Camera\Camera.h"
-#include "Scene\Lighting\Light.h"
-#include "Display\Display.h"
-#include "Display\Simulation.h"
-#include "Data\Data.h"
-#include "Scene\Object\GraphicObject\Material\PhongMaterial.h"
-#include "Scene\Object\GraphicObject\Mesh\Mesh.h"
-#include "Scene\Object\GameObject.h"
-
+#include "GL/glew.h"
 
 #include <iostream>
 #include <fstream>
@@ -29,6 +20,13 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "rapidjson/document.h"
+
+#include "Scene\Camera\Camera.h"
+#include "Display\Display.h"
+#include "Display\Simulation.h"
+#include "Data\Data.h"
+
+
 
 
 // используем пространство имен стандартной библиотеки
@@ -56,14 +54,16 @@ void main(int argc, char** argv)
 	glutInitWindowSize(1280, 600);
 	// 3. создаем окно
 	glutCreateWindow("");
-	glutSetWindowTitle("Laba_06 [ ]");
+	glutSetWindowTitle("Laba_07 [ ]");
 	// УСТАНОВКА ФУНКЦИЙ ОБРАТНОГО ВЫЗОВА
 	// устанавливаем функцию, которая будет вызываться для перерисовки окна
 	QueryPerformanceFrequency(&frequency);
 	QueryPerformanceCounter(&previous);
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
-
+	// инициализация GLEW
+	GLenum err = glewInit();
+	
 
 	initData();
 

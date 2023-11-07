@@ -17,7 +17,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "../Data/Data.h"
+#include "C:\Lessons\¿Œ–√\Lab3\Lab3\Data\Data.h"
 #include "GameObject.h"
 #include "rapidjson/document.h"
 

@@ -38,7 +38,7 @@ void winFPS() {
 		frameCount = 0;
 		//allFPS = 0;
 
-		oss << "Laba_06 [" << averageFPS << " FPS]";
+		oss << "Laba_07 [" << averageFPS << " FPS]";
 		glutSetWindowTitle(oss.str().c_str());
 	}
 

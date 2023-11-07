@@ -18,15 +18,7 @@ Light light2(25, 10, 0);
 Light light3(0, 10, 25);
 Light light4(-25, 10, 0);
 Light light5(0, 10, -25);
-/*struct Vertex
-{
-	// геометрические координаты
-	GLfloat coord[3];
-	// вектор нормали
-	GLfloat normal[3];
-	// текстурные координаты нулевого текстурного блока 
-	GLfloat texCoord[2];
-};*/
+
 
 int passabilityMap[21][21] = {
  3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
