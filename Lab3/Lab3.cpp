@@ -1,23 +1,4 @@
-﻿#include <windows.h>
-
-#include "GL/glew.h"
-
-#include <iostream>
-#include <fstream>
-#include <sstream>
-
-#include <thread>
-#include <vector>
-#include <algorithm>
-#include <string>
-
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include "GL/freeglut.h"
-
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+﻿#include "General_Heading.h"
 
 #include "rapidjson/document.h"
 
@@ -25,9 +6,6 @@
 #include "Display\Display.h"
 #include "Display\Simulation.h"
 #include "Data\Data.h"
-
-
-
 
 // используем пространство имен стандартной библиотеки
 using namespace std;

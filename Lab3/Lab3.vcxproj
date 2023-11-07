@@ -158,6 +158,7 @@
     <ClInclude Include="Data\Data.h" />
     <ClInclude Include="Display\Display.h" />
     <ClInclude Include="Display\Simulation.h" />
+    <ClInclude Include="General_Heading.h" />
     <ClInclude Include="Scene\Camera\Camera.h" />
     <ClInclude Include="Scene\Lighting\Light.h" />
     <ClInclude Include="Scene\Object\GameObject.h" />

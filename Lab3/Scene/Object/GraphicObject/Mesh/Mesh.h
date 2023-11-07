@@ -1,25 +1,12 @@
 #pragma once
 
-#include <windows.h>
-
-#include "GL/glew.h"
-
-#include <iostream>
-#include <fstream>
-#include <sstream>
+#include "../../General_Heading.h"
 
 #include <vector>
 #include <string>
 #include <map>
 #include <algorithm>
 
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include "GL/freeglut.h"
-
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 
 using namespace std;
 using namespace glm;
