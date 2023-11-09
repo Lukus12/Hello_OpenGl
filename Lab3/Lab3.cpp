@@ -41,7 +41,10 @@ void main(int argc, char** argv)
 	glutReshapeFunc(reshape);
 	// инициализация GLEW
 	GLenum err = glewInit();
-	
+	// инициализация библиотеки DevIL для загрузки изображений
+	ilInit();
+	iluInit();
+	ilutInit();
 
 	initData();
 
