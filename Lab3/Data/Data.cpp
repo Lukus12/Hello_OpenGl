@@ -8,9 +8,14 @@ LARGE_INTEGER previous, frequency;
 
 // список графических объектов
 vector<shared_ptr<GraphicObject>>graphicObjects;
-
+// список игровых объектов расположенных на карте
+shared_ptr<GameObject> mapObjects[21][21];
+// фабрика для создания игровых объектов
+GameObjectFactory gameObjectFactory;
+// игрок
+shared_ptr<GameObject> player;
 // используемая камера
-Camera camera(20, 15, 27.5);
+Camera camera(0.1, 0.1, 50);
 
 // источник света
 Light light1(0,10,0);
@@ -43,12 +48,7 @@ int passabilityMap[21][21] = {
  3,0,0,0,0,0,0,0,0,0,0,0,2,0,2,0,0,0,0,0,3,
  3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3
 };
-// список игровых объектов расположенных на карте
-shared_ptr<GameObject> mapObjects[21][21];
-// фабрика для создания игровых объектов
-GameObjectFactory gameObjectFactory;
-// игрок
-shared_ptr<GameObject> player;
+
 
 void initData()
 {
@@ -62,7 +62,7 @@ void initData()
 	meshPole->load("Data//meshes//SimplePlane.obj");
 
 	shared_ptr<GraphicObject> Pole = shared_ptr<GraphicObject>(new GraphicObject());
-	Pole->setPosition(vec3(0, -0.5, 0));
+	Pole->setPosition(vec3(0, -0.51, 0));
 	Pole->setMaterial({ materialPole });
 	Pole->setMesh({ meshPole });
 	graphicObjects.push_back(Pole);
@@ -72,7 +72,7 @@ void initData()
 	gamePole.draw();
 
 	//игрок
-	player = gameObjectFactory.create(GameObjectType::PLAYER, 19, 1);
+	player = gameObjectFactory.create(GameObjectType::PLAYER, 1, 19);
 
 	// инициализация объектов сцены
 	for (int i = 0; i < 21; i++) {

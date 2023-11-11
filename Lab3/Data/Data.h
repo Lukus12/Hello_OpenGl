@@ -5,6 +5,8 @@
 #include <vector>
 #include <sstream>
 
+#include "GL/glew.h"
+
 #include "GL/freeglut.h"
 
 #include <glm/glm.hpp>
@@ -17,6 +19,7 @@
 
 // список графических объектов
 extern std::vector<shared_ptr<GraphicObject>>graphicObjects;
+extern std::shared_ptr<GameObject> player;
 // используемая камера
 extern Camera camera;
 // источник света

@@ -1,21 +1,10 @@
 #pragma once
 
-#include <windows.h>
-#include <iostream>
-#include <fstream>
-#include <thread>
-#include <sstream>
+#include "../../General_Heading.h"
 
+#include <thread>
 #include <string>
 #include <vector>
-
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include "GL/freeglut.h"
-
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 
 #include "rapidjson/document.h"
 

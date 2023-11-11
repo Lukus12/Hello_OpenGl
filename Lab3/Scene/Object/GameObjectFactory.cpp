@@ -116,8 +116,7 @@ std::shared_ptr<GameObject> GameObjectFactory::create(GameObjectType type, int x
 
 	shared_ptr<GameObject> GameObj(new GameObject);
 	(*GameObj).setGraphicObject(graphicObjects.back());
-	(*GameObj).setPosition(vec3(y, x, z));
-	
+	(*GameObj).setPosition(vec3(x, y, z));
 
 	return GameObj;
 }
