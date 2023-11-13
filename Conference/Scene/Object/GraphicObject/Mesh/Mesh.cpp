@@ -14,6 +14,7 @@ void Mesh::load(string filename)
 	vector<vec2> textura;
 	// вектор для хранения индексов атрибутов, для построения вершин
 	vector<ivec3> fPoints;
+	//vector<ivec4> fPoints;
 	// отображение вершины (по используемым ею атрибутам) на индекс в массиве вершин
 	map<string, int> vertexToIndexTable;
 	// массив вершин полигональной сетки
@@ -54,13 +55,15 @@ void Mesh::load(string filename)
 				}
 			}
 			if (str[0] == 'f') {
+				//ivec3 fCord{};
 				ivec3 fCord{};
 				string simbol = "";
 				int k = 0;
 			
 				istringstream strNew(str);
 				string strSub;
-				for (int i = 0; i < 3; i++) {
+				//for (int i = 0; i < 3; i++) {
+				for (int i = 0; i < 4; i++) {
 					strNew >> strSub;
 					if(strSub[0] == 'f') strNew >> strSub;
 					//cout << strSub << endl;
@@ -70,13 +73,9 @@ void Mesh::load(string filename)
 						indices.push_back(index);
 						
 						replace(strSub.begin(), strSub.end(), '/', ' ');
-						//cout << strSub << endl;
 						istringstream subSubSr(strSub);
 						subSubSr >> fCord[0] >> fCord[1] >> fCord[2];
-						//cout << endl;
-						//cout << fCord[0] << " " << fCord[1] << " " << fCord[2] << endl;
 						fPoints.push_back(fCord);
-						
 						
 						index++;
 					}
@@ -139,7 +138,9 @@ void Mesh::draw(){
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferIds[1]);
-	glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, NULL);
+	//glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, NULL);
+	glDrawElements(GL_QUADS, indexCount, GL_UNSIGNED_INT, NULL);
+	//glDrawElements(GL_LINES, indexCount, GL_UNSIGNED_INT, NULL);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);

@@ -28,7 +28,7 @@ ivec2 GameObject::getPosition()
 	return position;
 }
 
-void GameObject::move(MoveDirection direction, float speed)
+/*void GameObject::move(MoveDirection direction, float speed)
 {
 	if (isMoving()) return;
 	this->sost = direction;
@@ -39,9 +39,9 @@ bool GameObject::isMoving()
 {
 	if (progress > 0) return true;
 	return false;
-}
+}*/
 
-void GameObject::simulate(float sec)
+/*void GameObject::simulate(float sec)
 {
     // вычисление прогресса перемещения
     if (sost != MoveDirection::STOP) progress += speed * sec;
@@ -92,7 +92,7 @@ void GameObject::simulate(float sec)
         // установливаем новую позицию графического объекта
         graphicObject->setPosition(currentPos);
     }
-}
+}*/
 
 void GameObject::draw(void)
 {

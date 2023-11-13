@@ -24,6 +24,7 @@
     <ProjectGuid>{7f895868-8df9-41c4-926b-217cf69c438a}</ProjectGuid>
     <RootNamespace>Lab3</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Conference</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -88,13 +89,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Lab3\Additional_Libraries\freeglut\include;$(SolutionDir)Lab3\Additional_Libraries\glm;$(SolutionDir)Lab3\Additional_Libraries\Tencent_rapidjson\include;$(SolutionDir)Lab3\Additional_Libraries\glew-2.1.0\include;$(SolutionDir)Lab3\Additional_Libraries\DevIL_Windows_SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Conference\Additional_Libraries\freeglut\include;$(SolutionDir)Conference\Additional_Libraries\glm;$(SolutionDir)Conference\Additional_Libraries\Tencent_rapidjson\include;$(SolutionDir)Conference\Additional_Libraries\glew-2.1.0\include;$(SolutionDir)Conference\Additional_Libraries\DevIL_Windows_SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opengl32.lib;glu32.lib;freeglut.lib;glew32.lib;DevIL.lib;ILU.lib;ILUT.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Lab3\Additional_Libraries\freeglut\lib;$(SolutionDir)Lab3\Additional_Libraries\glew-2.1.0\\lib\Release\Win32;$(SolutionDir)Lab3\Additional_Libraries\DevIL_Windows_SDK\lib\x86\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Conference\Additional_Libraries\freeglut\lib;$(SolutionDir)Conference\Additional_Libraries\glew-2.1.0\\lib\Release\Win32;$(SolutionDir)Conference\Additional_Libraries\DevIL_Windows_SDK\lib\x86\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -142,14 +143,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Conference.cpp" />
     <ClCompile Include="Data\Data.cpp" />
     <ClCompile Include="Display\Display.cpp" />
     <ClCompile Include="Display\Simulation.cpp" />
-    <ClCompile Include="Lab3.cpp" />
     <ClCompile Include="Scene\Camera\Camera.cpp" />
     <ClCompile Include="Scene\Lighting\Light.cpp" />
-    <ClCompile Include="Scene\Object\GameObject.cpp" />
-    <ClCompile Include="Scene\Object\GameObjectFactory.cpp" />
     <ClCompile Include="Scene\Object\GraphicObject\GraphicObject.cpp" />
     <ClCompile Include="Scene\Object\GraphicObject\Material\PhongMaterial.cpp" />
     <ClCompile Include="Scene\Object\GraphicObject\Mesh\Mesh.cpp" />
@@ -161,8 +160,6 @@
     <ClInclude Include="General_Heading.h" />
     <ClInclude Include="Scene\Camera\Camera.h" />
     <ClInclude Include="Scene\Lighting\Light.h" />
-    <ClInclude Include="Scene\Object\GameObject.h" />
-    <ClInclude Include="Scene\Object\GameObjectFactory.h" />
     <ClInclude Include="Scene\Object\GraphicObject\GraphicObject.h" />
     <ClInclude Include="Scene\Object\GraphicObject\Material\PhongMaterial.h" />
     <ClInclude Include="Scene\Object\GraphicObject\Mesh\Mesh.h" />

@@ -27,7 +27,6 @@ void GraphicObject::recalculateModelMatrix() {
 	mat4 scal = scale(mat4(1.0f), vec3(1.0f, 1.0f, 1.0f));
 
 	modelMatrix = scal * rot * trans;
-
 }
 
 void GraphicObject::setMaterial(const std::vector<std::shared_ptr<PhongMaterial>>& material)
@@ -43,7 +42,7 @@ void GraphicObject::setMesh(shared_ptr<Mesh> mesh)
 // גûגוסעט מבתוךע
 void GraphicObject::draw() {
 	recalculateModelMatrix();
-	//glColor3f(color[0], color[1], color[2]);
+	glColor3f(color[0], color[1], color[2]);
 
 	glPushMatrix();
 	glMultMatrixf(&modelMatrix[0][0]);

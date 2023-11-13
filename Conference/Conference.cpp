@@ -32,7 +32,7 @@ void main(int argc, char** argv)
 	glutInitWindowSize(1280, 600);
 	// 3. создаем окно
 	glutCreateWindow("");
-	glutSetWindowTitle("Laba_07 [ ]");
+	glutSetWindowTitle("Conference [ ]");
 	// УСТАНОВКА ФУНКЦИЙ ОБРАТНОГО ВЫЗОВА
 	// устанавливаем функцию, которая будет вызываться для перерисовки окна
 	QueryPerformanceFrequency(&frequency);
@@ -41,11 +41,7 @@ void main(int argc, char** argv)
 	glutReshapeFunc(reshape);
 	// инициализация GLEW
 	GLenum err = glewInit();
-	// инициализация библиотеки DevIL для загрузки изображений
-	ilInit();
-	iluInit();
-	ilutInit();
-
+	
 	initData();
 
 	glutIdleFunc(simulation);

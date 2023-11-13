@@ -38,7 +38,7 @@ void winFPS() {
 		frameCount = 0;
 		//allFPS = 0;
 
-		oss << "Laba_07 [" << averageFPS << " FPS]";
+		oss << "Conference [" << averageFPS << " FPS]";
 		glutSetWindowTitle(oss.str().c_str());
 	}
 
@@ -68,12 +68,6 @@ void display(void)
 		go->draw();
 	}
 
-
-	/*for (int i = 0; i < 21; i++) {
-		for (int j = 0; j < 21; j++) {
-			if (mapObjects[i][j] != nullptr) (*mapObjects[i][j]).draw();
-		}
-	}*/
 
 	winFPS();
 	
