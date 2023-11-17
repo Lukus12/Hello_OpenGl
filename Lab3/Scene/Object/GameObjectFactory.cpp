@@ -112,6 +112,7 @@ std::shared_ptr<GameObject> GameObjectFactory::create(GameObjectType type, int x
 	shared_ptr<GraphicObject> GrafObj = shared_ptr<GraphicObject>(new GraphicObject());
 	GrafObj->setMaterial({ materials[index] });
 	GrafObj->setMesh(meshes[index]);
+	GrafObj->setTexture({nullptr});
 	graphicObjects.push_back(GrafObj);
 
 	shared_ptr<GameObject> GameObj(new GameObject);

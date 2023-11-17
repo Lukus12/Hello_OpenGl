@@ -9,6 +9,8 @@
 
 #include "Material/PhongMaterial.h"
 #include "Mesh/Mesh.h"
+#include "Texture/Texture.h"
+
 
 using namespace glm;
 using namespace std;
@@ -31,8 +33,11 @@ public:
 	void setMaterial(const vector<shared_ptr<PhongMaterial>>& material);
 	// Установка используемого меша
 	void setMesh(shared_ptr<Mesh> mesh);
+	// Установка текстуры
+	void setTexture(shared_ptr<Texture> texture);
 	// Вывести объект
 	void draw();
+	void drawPole();
 private:
 	// Позиция объекта в глобальной системе координат
 	vec3 position;
@@ -46,7 +51,8 @@ private:
 	vector<shared_ptr<PhongMaterial>> material;
 	// Используемый меш
 	shared_ptr<Mesh> mesh;
-
+	// Используемая текстура 
+	shared_ptr<Texture> texture;
 private:
 	// расчет матрицы modelMatrix на основе position и angle
 	void recalculateModelMatrix();

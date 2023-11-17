@@ -2,6 +2,7 @@
 #include "Simulation.h"
 
 extern LARGE_INTEGER previous, frequency;
+float limitTime;
 
 void moveLightBox(MoveDirection direction, int PlayerPosX, int PlayerPosY) {
 	ivec2 offset = {};
@@ -49,9 +50,6 @@ void movePlayer() {
 	int nextPlayerPosY = nextPlayerPos[1];
 
 	if (GetAsyncKeyState('W')){
-		/*cout << "X: " << nextPlayerPosX << " Y: " << nextPlayerPosY << endl;
-		cout << passabilityMap[nextPlayerPosX][nextPlayerPosY - 1] << endl;*/
-
 		if (passabilityMap[nextPlayerPosX][nextPlayerPosY - 1] == 0) {
 			(*player).move(MoveDirection::UP, 50);
 		}
@@ -61,9 +59,6 @@ void movePlayer() {
 		}
 	}
 	if (GetAsyncKeyState('S')) {
-		/*cout << "X: " << nextPlayerPosX << " Y: " << nextPlayerPosY << endl;
-		cout << passabilityMap[nextPlayerPosX][nextPlayerPosY + 1] << endl;*/
-
 		if (passabilityMap[nextPlayerPosX][nextPlayerPosY + 1] == 0) {
 			(*player).move(MoveDirection::DOWN, 50);
 		}
@@ -73,9 +68,6 @@ void movePlayer() {
 		}
 	}
 	if (GetAsyncKeyState('A')){
-		/*cout << "X: " << nextPlayerPosX << " Y: " << nextPlayerPosY << endl;
-		cout << passabilityMap[nextPlayerPosX - 1][nextPlayerPosY] << endl;*/
-
 		if (passabilityMap[nextPlayerPosX - 1][nextPlayerPosY] == 0) {
 			(*player).move(MoveDirection::LEFT, 50);
 		}
@@ -85,9 +77,6 @@ void movePlayer() {
 		}
 	}
 	if (GetAsyncKeyState('D')){
-		/*cout << "X: " << nextPlayerPosX << " Y: " << nextPlayerPosY << endl;
-		cout << passabilityMap[nextPlayerPosX + 1][nextPlayerPosY] << endl;*/
-
 		if (passabilityMap[nextPlayerPosX + 1][nextPlayerPosY] == 0) {
 			(*player).move(MoveDirection::RIGHT, 50);
 		}
@@ -98,11 +87,93 @@ void movePlayer() {
 	}
 }
 
+void randomizeDirection(MoveDirection &direction)
+{
+	int randNum = rand() % 5;
+	switch (randNum) {
+		case 1:
+			direction = MoveDirection::LEFT;
+			break;
+		case 2:
+			direction = MoveDirection::RIGHT;
+			break;
+		case 3:
+			direction = MoveDirection::UP;
+			break;
+		case 4:
+			direction = MoveDirection::DOWN;
+			break;
+	}
+}
+
+
+void monstersSimulation(float simulationTime)
+{
+	MoveDirection direction = MoveDirection::STOP;
+	limitTime += simulationTime*50;
+
+	if (limitTime >= 0.1) {
+		limitTime = 0;
+		for (int i = 0; i < 5; i++) {
+
+			if (player != nullptr) {
+				if ((*monsters[i]).getPosition() == (*player).getPosition()) {
+					player.reset();
+				}
+			}
+			
+			randomizeDirection(direction);
+
+			if (!(*monsters[i]).isMoving()) {
+
+				int monsterPositionX = (*monsters[i]).getPosition()[0];
+				int monsterPositionY = (*monsters[i]).getPosition()[1];
+
+				ivec2 nextMonsterPosition;
+				nextMonsterPosition.x = monsterPositionX;
+				nextMonsterPosition.y = monsterPositionY;
+
+				switch (direction) {
+				case MoveDirection::LEFT:
+					nextMonsterPosition.x--;
+					break;
+				case MoveDirection::RIGHT:
+					nextMonsterPosition.x++;
+					break;
+				case MoveDirection::UP:
+					nextMonsterPosition.y--;
+					break;
+				case MoveDirection::DOWN:
+					nextMonsterPosition.y++;
+					break;
+				}
+
+				int typeNextPosition = passabilityMap[nextMonsterPosition.x][nextMonsterPosition.y];
+
+				if (typeNextPosition == 0) {
+					(*monsters[i]).move(direction, 50);
+
+					passabilityMap[monsterPositionX][monsterPositionY] = 0;
+					passabilityMap[nextMonsterPosition.x][nextMonsterPosition.y] = 2;
+				}
+			}
+		}
+	}
+}
+
+
 void gameObjectSimulation(float simulationTime) {
-	(*player).simulate(simulationTime);
+	if (player != nullptr) {
+		(*player).simulate(simulationTime);
+	}
+	for (int i = 0; i < 5; i++) {
+		(*monsters[i]).simulate(simulationTime);
+	}
 	for (int i = 0; i < 21; i++) {
 		for (int j = 0; j < 21; j++) {
-			if (passabilityMap[i][j] == 1) (*mapObjects[i][j]).simulate(simulationTime);
+			if (passabilityMap[i][j] == 1) {
+				(*mapObjects[i][j]).simulate(simulationTime);
+			}
 		}
 	}
 }
@@ -135,10 +206,15 @@ void simulation()
 	double simulationTime = getSimulationTime();
 	// передвижение камеры
 	moveCamera(simulationTime);
+
 	//симуляция всех игровых объектов (их плавное перемещение)
 	gameObjectSimulation(simulationTime);
+	//перемещение монстров
+	monstersSimulation(simulationTime);
 	//перемещение главного героя
-	movePlayer();
+	if (player != nullptr) {
+		movePlayer();
+	}
 	// устанавливаем признак того, что окно нуждается в перерисовке
 	glutPostRedisplay();
 };

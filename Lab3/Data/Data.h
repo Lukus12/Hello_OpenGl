@@ -19,16 +19,16 @@
 
 // список графических объектов
 extern std::vector<shared_ptr<GraphicObject>>graphicObjects;
+// игровые объекты
 extern std::shared_ptr<GameObject> player;
+extern std::shared_ptr<GameObject> monsters[5];
+extern GameObject field;
 // используемая камера
 extern Camera camera;
 // источник света
-extern Light light1;
-extern Light light2;
-extern Light light3;
-extern Light light4;
-extern Light light5;
-//struct Vertex;
+extern Light light;
+
+extern Texture planeTexture;
 
 extern int passabilityMap[21][21];
 extern shared_ptr<GameObject> mapObjects[21][21];

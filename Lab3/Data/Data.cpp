@@ -12,17 +12,19 @@ vector<shared_ptr<GraphicObject>>graphicObjects;
 shared_ptr<GameObject> mapObjects[21][21];
 // фабрика для создания игровых объектов
 GameObjectFactory gameObjectFactory;
+// поле 
+GameObject field;
 // игрок
 shared_ptr<GameObject> player;
+// монстры
+shared_ptr<GameObject> monsters[5];
 // используемая камера
 Camera camera(0.1, 0.1, 50);
 
 // источник света
-Light light1(0,10,0);
-Light light2(25, 10, 0);
-Light light3(0, 10, 25);
-Light light4(-25, 10, 0);
-Light light5(0, 10, -25);
+Light light(0,10,0);
+
+Texture planeTexture;
 
 
 int passabilityMap[21][21] = {
@@ -50,14 +52,18 @@ int passabilityMap[21][21] = {
 };
 
 
+
 void initData()
 {
+	planeTexture.load("Data//textures//plane.jpg");
+
 	// инициализация фабрики (в дальнейшем на основе json-файла)
 	gameObjectFactory.init("Data//GameObjectsDescription.json");
 
 	// игровое поле
 	shared_ptr<PhongMaterial> materialPole = make_shared<PhongMaterial>();
 	materialPole->load("Data//materials//material_1.txt");
+	
 	shared_ptr<Mesh> meshPole = make_shared<Mesh>();
 	meshPole->load("Data//meshes//SimplePlane.obj");
 
@@ -67,12 +73,16 @@ void initData()
 	Pole->setMesh({ meshPole });
 	graphicObjects.push_back(Pole);
 
-	GameObject gamePole;
-	gamePole.setGraphicObject(graphicObjects[0]);
-	gamePole.draw();
+	field.setGraphicObject(graphicObjects.back());
 
 	//игрок
 	player = gameObjectFactory.create(GameObjectType::PLAYER, 1, 19);
+
+	ivec2 monsterLocation[5]{ ivec2(5, 3), ivec2(19, 5), ivec2(19, 18), ivec2(1, 15), ivec2(9, 9) };
+
+	for (int i = 0; i < 5; i++) {
+		monsters[i] = gameObjectFactory.create(GameObjectType::MONSTER, monsterLocation[i].x, monsterLocation[i].y);
+	}
 
 	// инициализация объектов сцены
 	for (int i = 0; i < 21; i++) {
@@ -92,6 +102,10 @@ void initData()
 				break;
 			}
 		}
+	}
+
+	for (int i = 0; i < 5; i++) {
+		passabilityMap[monsterLocation[i].x][monsterLocation[i].y] = 2;
 	}
 
 }
