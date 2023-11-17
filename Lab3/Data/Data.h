@@ -22,6 +22,8 @@ extern std::vector<shared_ptr<GraphicObject>>graphicObjects;
 // игровые объекты
 extern std::shared_ptr<GameObject> player;
 extern std::shared_ptr<GameObject> monsters[5];
+
+
 extern GameObject field;
 // используемая камера
 extern Camera camera;
