@@ -363,7 +363,6 @@ MigrationBackup/
 FodyWeavers.xsd
 
 #don't ignore dependency files
-!Conference/Additional_Libraries/**
-!Debug/**
+!Lab3/Additional_Libraries/**
 #don't ignore meshes
 !**/meshes/*.obj

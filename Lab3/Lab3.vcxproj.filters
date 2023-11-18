@@ -30,6 +30,12 @@
     <ClCompile Include="Data\Data.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Lab3.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Object\GameObject.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
     <ClCompile Include="Scene\Object\GraphicObject\GraphicObject.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -39,7 +45,10 @@
     <ClCompile Include="Scene\Object\GraphicObject\Mesh\Mesh.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Conference.cpp">
+    <ClCompile Include="Scene\Object\GameObjectFactory.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Object\GraphicObject\Texture\Texture.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -59,6 +68,9 @@
     <ClInclude Include="Data\Data.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="Scene\Object\GameObject.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
     <ClInclude Include="Scene\Object\GraphicObject\GraphicObject.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
@@ -68,7 +80,13 @@
     <ClInclude Include="Scene\Object\GraphicObject\Mesh\Mesh.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="Scene\Object\GameObjectFactory.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
     <ClInclude Include="General_Heading.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Object\GraphicObject\Texture\Texture.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
