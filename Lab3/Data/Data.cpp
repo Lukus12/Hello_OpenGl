@@ -6,6 +6,8 @@ using namespace std;
 
 LARGE_INTEGER previous, frequency;
 
+
+
 // список графических объектов
 vector<shared_ptr<GraphicObject>>graphicObjects;
 // список игровых объектов расположенных на карте
