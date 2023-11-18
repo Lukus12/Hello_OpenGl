@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include "Texture.h"
 
 void Texture::load(std::string filename)
@@ -84,3 +85,91 @@ void Texture::disableAll()
 {
 	glDisable(GL_TEXTURE_2D);
 }
+=======
+#include "Texture.h"
+
+void Texture::load(std::string filename)
+{
+	// ñîçäàåì íîâîå "èçîáğàæåíèå"
+	ILuint imageId = ilGenImage();
+	// çàäàåì òåêóùåå "èçîáğàæåíèå"
+	ilBindImage(imageId);
+
+	// çàãğóæàåì èçîáğàæåíèå
+	wchar_t unicodeString[256];
+	wsprintf(unicodeString, L"%S", filename.c_str());
+	bool result = ilLoadImage(unicodeString);
+
+	if (result) {
+		// ïîëó÷åíèå ïàğàìåòğîâ çàãğóæåííîé òåêñòóğû
+		int width = ilGetInteger(IL_IMAGE_WIDTH);
+		int height = ilGetInteger(IL_IMAGE_HEIGHT);
+
+		//ïğè èñïîëüçîâàíèè ôîğìàòà RGBA è òèïà äàííûõ IL_UNSIGNED_BYTE,
+		//íóæíî âûäåëèòü ïàìÿòü äëÿ ìàññèâà ğàçìåğîì
+		//width * height * depth * 4 áàéò.
+		int dataSize = width * height * 1 * 4;
+		void* data = new unsigned char[dataSize];
+
+		//ôóíêöèÿ ilCopyPixels ïîçâîëÿåò ñêîïèğîâàòü
+		//ìàññèâ ïèêñåëåé èç âíóòğåííåé ïàìÿòè áèáëèîòåêè DevIL â óêàçàííûé ìàññèâ,
+		//ğàñïîëîæåííûõ â îïåğàòèâíîé ïàìÿòè.
+		ilCopyPixels(0, 0, 0, width, height, 1, IL_RGBA, IL_UNSIGNED_BYTE, data);
+
+		// óäàëÿåì èçîáğàæåíèå
+		ilDeleteImage(imageId);
+
+		// îïğåäåëÿåì ìîäåëü ïàìÿòè (ïàğàìåòğû ğàñïàêîâêè)
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		//äåëàåì 0 òåêñóğíûé áëîê àêòèâíûì
+		glActiveTexture(GL_TEXTURE0);
+		//Ñîçäàíèå òåêñòóğíîãî îáúåêòà
+		glGenTextures(1, &texIndex);
+		//Ïğèâÿçêà òåêñòóğíîãî îáúåêòà ê òåêñòóğíîìó áëîêó
+		glBindTexture(GL_TEXTURE_2D, texIndex);
+		//Çàãğóçêà èçîáğàæåíèÿ èç îïåğàòèâíîé ïàìÿòè â òåêñòóğíûé îáúåêò
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		delete[] reinterpret_cast<unsigned char*>(data);
+		//Ãåíåğàöèÿ mipmap’îâ
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+}
+
+void Texture::apply(TextureFilter texFilter)
+{
+	// Óñòàíîâêà ïàğàìåòğîâ òåêñòóğû
+	switch (texFilter) {
+		case TextureFilter::POINT:
+			// Óñòàíîâêà ôèëüòğàöèè òåêñòóğû â òî÷å÷íûé ğåæèì
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			break;
+
+		case TextureFilter::BILINEAR:
+			// Óñòàíîâêà ôèëüòğàöèè òåêñòóğû â áèëèíåéíûé ğåæèì
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			break;
+
+		case TextureFilter::TRILINEAR:
+			// Óñòàíîâêà ôèëüòğàöèè òåêñòóğû â òğèëèíåéíûé ğåæèì
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			break;
+
+		case TextureFilter::ANISOTROPIC:
+			// Óñòàíîâêà ôèëüòğàöèè òåêñòóğû â àíèçîòğîïíûé ğåæèì
+			GLfloat maxAnisotropy;
+			glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxAnisotropy);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, maxAnisotropy);
+			break;
+	}
+	// Ïğèâÿçûâàåì òåêñòóğíûé îáúåêò ê òåêñòóğíîìó áëîêó
+	glBindTexture(GL_TEXTURE_2D, texIndex);
+}
+
+void Texture::disableAll()
+{
+	glDisable(GL_TEXTURE_2D);
+}
+>>>>>>> 1f562be79d16193a9746e34b908252d6844f6415
