@@ -4,6 +4,7 @@
 using namespace glm;
 using namespace std;
 
+
 LARGE_INTEGER previous, frequency;
 
 // список графических объектов
