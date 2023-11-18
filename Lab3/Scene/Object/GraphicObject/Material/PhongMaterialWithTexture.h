@@ -15,7 +15,7 @@ using namespace glm;
 using namespace std;
 
 // КЛАСС ДЛЯ РАБОТЫ С МАТЕРИАЛОМ
-class PhongMaterial : public Material
+class PhongMaterialWithTexture : public Material
 {
 public:
 	// конструктор по умолчанию
@@ -30,6 +30,8 @@ public:
 	// загрузка параметров материала из внешнего текстового файла
 	void load(std::string filename);
 	void load(MaterialParams value);
+	//установка текстур
+	void setTexture(shared_ptr<Texture> texture);
 	// установка всех параметров материала
 	void apply();
 private:
@@ -43,4 +45,6 @@ private:
 	vec4 emission;
 	// степень отполированности
 	float shininess;
+	// текстуры
+	shared_ptr<Texture> texture;
 };

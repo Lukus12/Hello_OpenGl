@@ -6,7 +6,7 @@ using namespace rapidjson;
 
 void GameObjectFactory::init(std::string filename)
 {
-	Material materialchik{};
+	MaterialParams materialchik{};
 	vec4 color = {};
 	float val = 0;
 	ifstream f(filename);
@@ -71,6 +71,7 @@ void GameObjectFactory::init(std::string filename)
 							}
 							else {
 								materialchik.Shininess = materialType->value.GetFloat();
+								// указатель на базовый класс материала
 								shared_ptr<PhongMaterial> material = make_shared<PhongMaterial>();
 								material->load(materialchik);
 								materials.push_back(material);
@@ -112,7 +113,6 @@ std::shared_ptr<GameObject> GameObjectFactory::create(GameObjectType type, int x
 	shared_ptr<GraphicObject> GrafObj = shared_ptr<GraphicObject>(new GraphicObject());
 	GrafObj->setMaterial({ materials[index] });
 	GrafObj->setMesh(meshes[index]);
-	GrafObj->setTexture({nullptr});
 	graphicObjects.push_back(GrafObj);
 
 	shared_ptr<GameObject> GameObj(new GameObject);

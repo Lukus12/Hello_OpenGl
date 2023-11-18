@@ -36,5 +36,5 @@ private:
 	// меши для каждого типа объекта
 	std::vector<std::shared_ptr<Mesh>> meshes;
 	// материалы для каждого типа объекта
-	std::vector<std::shared_ptr<PhongMaterial>> materials;
+	std::vector<std::shared_ptr<Material>> materials;
 };

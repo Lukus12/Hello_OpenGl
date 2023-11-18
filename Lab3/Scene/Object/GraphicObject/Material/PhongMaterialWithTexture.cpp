@@ -1,10 +1,10 @@
-#include "PhongMaterial.h"
+#include "PhongMaterialWithTexture.h"
 
 using namespace std;
 using namespace rapidjson;
 
 
-void PhongMaterial::setAmbient(vec4 color)
+void PhongMaterialWithTexture::setAmbient(vec4 color)
 {
 	this->ambient.r = color.x;
 	this->ambient.g = color.y;
@@ -12,7 +12,7 @@ void PhongMaterial::setAmbient(vec4 color)
 	this->ambient.a = 1;
 }
 
-void PhongMaterial::setDiffuse(vec4 color)
+void PhongMaterialWithTexture::setDiffuse(vec4 color)
 {
 	this->diffuse.r = color.x;
 	this->diffuse.g = color.y;
@@ -20,7 +20,7 @@ void PhongMaterial::setDiffuse(vec4 color)
 	this->diffuse.a = 1;
 }
 
-void PhongMaterial::setSpecular(vec4 color)
+void PhongMaterialWithTexture::setSpecular(vec4 color)
 {
 	this->specular.r = color.x;
 	this->specular.g = color.y;
@@ -28,7 +28,7 @@ void PhongMaterial::setSpecular(vec4 color)
 	this->specular.a = 1;
 }
 
-void PhongMaterial::setEmission(vec4 color)
+void PhongMaterialWithTexture::setEmission(vec4 color)
 {
 	this->emission.r = color.x;
 	this->emission.g = color.y;
@@ -36,12 +36,18 @@ void PhongMaterial::setEmission(vec4 color)
 	this->emission.a = 1;
 }
 
-void PhongMaterial::setShininess(float p)
+void PhongMaterialWithTexture::setShininess(float p)
 {
 	this->shininess = p;
 }
 
-void PhongMaterial::load(string filename) {
+void PhongMaterialWithTexture::setTexture(shared_ptr<Texture> texture)
+{
+	this->texture = texture;
+}
+
+
+void PhongMaterialWithTexture::load(string filename) {
 	ifstream fin;
 	fin.open(filename);
 
@@ -88,7 +94,7 @@ void PhongMaterial::load(string filename) {
 	fin.close();
 }
 
-void PhongMaterial::load(MaterialParams value)
+void PhongMaterialWithTexture::load(MaterialParams value)
 {
 	setDiffuse(value.Diffuse);
 	setAmbient(value.Ambient);
@@ -98,7 +104,7 @@ void PhongMaterial::load(MaterialParams value)
 }
 
 
-void PhongMaterial::apply()
+void PhongMaterialWithTexture::apply()
 {
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, value_ptr(ambient)); //Фоновая отражающая способность материала. 
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, value_ptr(diffuse)); //Диффузная отражающая способность
@@ -106,5 +112,9 @@ void PhongMaterial::apply()
 	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, value_ptr(emission)); //Цвет самосвечения. 
 	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shininess); //Степень отполированности объекта
 
-	//Texture::disableAll();
+	glActiveTexture(GL_TEXTURE0);
+	glEnable(GL_TEXTURE_2D);
+	(*texture).apply();
+	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
 }

@@ -18,14 +18,16 @@
 #include "..\Scene\Object\GameObjectFactory.h"
 
 
+
 // список графических объектов
 extern std::vector<shared_ptr<GraphicObject>>graphicObjects;
 // игровые объекты
 extern std::shared_ptr<GameObject> player;
 extern std::shared_ptr<GameObject> monsters[5];
-// прошлый путь монстра и его фиксация
+// прошлый путь монстра и сбор направления
 extern MoveDirection lastDirection[5];
 extern int blockDirection[5];
+// поле
 extern GameObject field;
 // используемая камера
 extern Camera camera;

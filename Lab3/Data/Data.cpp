@@ -7,7 +7,7 @@ using namespace std;
 LARGE_INTEGER previous, frequency;
 
 
-// прошлый путь монстра и его фиксация
+// прошлый путь монстра и сброс направления
 MoveDirection lastDirection[5] = {};
 int blockDirection[5] = {};
 
@@ -60,22 +60,29 @@ int passabilityMap[21][21] = {
 
 void initData()
 {
-	planeTexture.load("Data//textures//plane.jpg");
+	//planeTexture.load("Data//textures//plane.jpg");
 
 	// инициализация фабрики (в дальнейшем на основе json-файла)
 	gameObjectFactory.init("Data//GameObjectsDescription.json");
 
 	// игровое поле
-	shared_ptr<PhongMaterial> materialPole = make_shared<PhongMaterial>();
-	materialPole->load("Data//materials//material_1.txt");
-	
-	shared_ptr<Mesh> meshPole = make_shared<Mesh>();
-	meshPole->load("Data//meshes//SimplePlane.obj");
-
 	shared_ptr<GraphicObject> Pole = shared_ptr<GraphicObject>(new GraphicObject());
 	Pole->setPosition(vec3(0, -0.51, 0));
-	Pole->setMaterial({ materialPole });
+
+	// установка меша для плоскости
+	shared_ptr<Mesh> meshPole = make_shared<Mesh>();
+	meshPole->load("Data//meshes//SimplePlane.obj");
 	Pole->setMesh({ meshPole });
+
+	// загрузка текстуры для плоскости
+	shared_ptr<Texture> planeTexture = make_shared<Texture>();
+	planeTexture->load("Data//textures//plane.jpg");
+
+	// установка материала для плоскости
+	shared_ptr<PhongMaterialWithTexture> planeMaterial = make_shared<PhongMaterialWithTexture>();
+	planeMaterial->load("Data//materials//PlaneMaterial.txt");
+	planeMaterial->setTexture(planeTexture);
+	Pole->setMaterial({ planeMaterial });
 	graphicObjects.push_back(Pole);
 
 	field.setGraphicObject(graphicObjects.back());

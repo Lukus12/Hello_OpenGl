@@ -30,7 +30,7 @@ void GraphicObject::recalculateModelMatrix() {
 
 }
 
-void GraphicObject::setMaterial(const std::vector<std::shared_ptr<PhongMaterial>>& material)
+void GraphicObject::setMaterial(const std::vector<std::shared_ptr<Material>>& material)
 {
 	this->material = material;
 }
@@ -40,28 +40,9 @@ void GraphicObject::setMesh(shared_ptr<Mesh> mesh)
 	this->mesh = mesh;
 }
 
-void GraphicObject::setTexture(shared_ptr<Texture> texture)
-{
-	this->texture = texture;
-}
-
 // вывести объект
 void GraphicObject::draw() {
 	recalculateModelMatrix();
-
-	glPushMatrix();
-	glMultMatrixf(&modelMatrix[0][0]);
-
-	/*if (texture != nullptr) {
-		// выбираем активный текстурный блок
-		glActiveTexture(GL_TEXTURE0);
-		// разрешаем текстурирование в выбранном текстурном блоке
-		glEnable(GL_TEXTURE_2D);
-		// привязываем текстуру к ранее выбранному текстурному блоку
-		texture->apply(TextureFilter::TRILINEAR);
-		// указываем режим наложения текстуры (GL_MODULATE)
-		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	}*/
 
 	for (const auto& material : material) {
 		if (material != nullptr) {
@@ -69,10 +50,12 @@ void GraphicObject::draw() {
 		}
 	}
 
+	glPushMatrix();
+	glMultMatrixf(&modelMatrix[0][0]);
+
 	if (mesh != nullptr) {
 		mesh->draw();
 	}
-
 
 	glPopMatrix();
 }

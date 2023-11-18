@@ -152,6 +152,7 @@
     <ClCompile Include="Scene\Object\GameObjectFactory.cpp" />
     <ClCompile Include="Scene\Object\GraphicObject\GraphicObject.cpp" />
     <ClCompile Include="Scene\Object\GraphicObject\Material\PhongMaterial.cpp" />
+    <ClCompile Include="Scene\Object\GraphicObject\Material\PhongMaterialWithTexture.cpp" />
     <ClCompile Include="Scene\Object\GraphicObject\Mesh\Mesh.cpp" />
     <ClCompile Include="Scene\Object\GraphicObject\Texture\Texture.cpp" />
   </ItemGroup>
@@ -165,7 +166,10 @@
     <ClInclude Include="Scene\Object\GameObject.h" />
     <ClInclude Include="Scene\Object\GameObjectFactory.h" />
     <ClInclude Include="Scene\Object\GraphicObject\GraphicObject.h" />
+    <ClInclude Include="Scene\Object\GraphicObject\Material\Material.h" />
+    <ClInclude Include="Scene\Object\GraphicObject\Material\MaterialParams.h" />
     <ClInclude Include="Scene\Object\GraphicObject\Material\PhongMaterial.h" />
+    <ClInclude Include="Scene\Object\GraphicObject\Material\PhongMaterialWithTexture.h" />
     <ClInclude Include="Scene\Object\GraphicObject\Mesh\Mesh.h" />
     <ClInclude Include="Scene\Object\GraphicObject\Texture\Texture.h" />
   </ItemGroup>
