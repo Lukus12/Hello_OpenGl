@@ -121,10 +121,17 @@ void monstersSimulation(float simulationTime)
 					player.reset();
 				}
 			}
-			
-			randomizeDirection(direction);
+
+			/*
+					Выбираем рандом направление, если там не 0, выбираем по новой,
+				иначе идем по выбранному направлению и сохраняем прошлое направление
+				прошлое направление противоположно текущему
+				прошлое направление меняется, когда монстр выбирает путь отличный от текущего
+			*/
 
 			if (!(*monsters[i]).isMoving()) {
+
+				randomizeDirection(direction);
 
 				int monsterPositionX = (*monsters[i]).getPosition()[0];
 				int monsterPositionY = (*monsters[i]).getPosition()[1];
@@ -134,27 +141,50 @@ void monstersSimulation(float simulationTime)
 				nextMonsterPosition.y = monsterPositionY;
 
 				switch (direction) {
-				case MoveDirection::LEFT:
-					nextMonsterPosition.x--;
-					break;
-				case MoveDirection::RIGHT:
-					nextMonsterPosition.x++;
-					break;
-				case MoveDirection::UP:
-					nextMonsterPosition.y--;
-					break;
-				case MoveDirection::DOWN:
-					nextMonsterPosition.y++;
-					break;
+					case MoveDirection::LEFT:
+						nextMonsterPosition.x--;
+						break;
+					case MoveDirection::RIGHT:
+						nextMonsterPosition.x++;
+						break;
+					case MoveDirection::UP:
+						nextMonsterPosition.y--;
+						break;
+					case MoveDirection::DOWN:
+						nextMonsterPosition.y++;
+						break;
 				}
 
 				int typeNextPosition = passabilityMap[nextMonsterPosition.x][nextMonsterPosition.y];
 
-				if (typeNextPosition == 0) {
-					(*monsters[i]).move(direction, 50);
+				//проверка на тупик
+				blockDirection[i]++;
+				if (blockDirection[i] == 100) {
+					lastDirection[i] = {};
+					blockDirection[i] = 0;
+				}
 
+				if (typeNextPosition == 0 and direction != lastDirection[i]) {
+
+					(*monsters[i]).move(direction, 50);
 					passabilityMap[monsterPositionX][monsterPositionY] = 0;
 					passabilityMap[nextMonsterPosition.x][nextMonsterPosition.y] = 2;
+
+					//сохр путь отуда пришёл монстр
+					switch (direction) {
+						case MoveDirection::LEFT:
+							lastDirection[i] = MoveDirection::RIGHT;
+							break;
+						case MoveDirection::RIGHT:
+							lastDirection[i] = MoveDirection::LEFT;
+							break;
+						case MoveDirection::UP:
+							lastDirection[i] = MoveDirection::DOWN;
+							break;
+						case MoveDirection::DOWN:
+							lastDirection[i] = MoveDirection::UP;
+							break;
+					}
 				}
 			}
 		}

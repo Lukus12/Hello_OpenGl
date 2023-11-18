@@ -7,6 +7,9 @@ using namespace std;
 LARGE_INTEGER previous, frequency;
 
 
+// прошлый путь монстра и его фиксация
+MoveDirection lastDirection[5] = {};
+int blockDirection[5] = {};
 
 // список графических объектов
 vector<shared_ptr<GraphicObject>>graphicObjects;
