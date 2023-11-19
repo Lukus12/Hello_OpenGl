@@ -1,7 +1,4 @@
-
 #include "Display.h"
-
-
 
 extern LARGE_INTEGER previous, frequency;
 
@@ -35,7 +32,6 @@ void winFPS() {
 		oss << "Laba_07 [" << averageFPS << " FPS]";
 		glutSetWindowTitle(oss.str().c_str());
 	}
-
 
 }
 
@@ -75,6 +71,10 @@ void display(void)
 
 	for (int i = 0; i < 5; i++) {
 		if (monsters[i] != nullptr) (*monsters[i]).draw();
+	}
+
+	if (bomb != nullptr) {
+		(*bomb).draw();
 	}
 
 

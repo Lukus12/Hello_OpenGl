@@ -6,6 +6,8 @@ using namespace std;
 
 LARGE_INTEGER previous, frequency;
 
+// фабрика для создания игровых объектов
+GameObjectFactory gameObjectFactory;
 
 // прошлый путь монстра и сброс направления
 MoveDirection lastDirection[5] = {};
@@ -15,14 +17,14 @@ int blockDirection[5] = {};
 vector<shared_ptr<GraphicObject>>graphicObjects;
 // список игровых объектов расположенных на карте
 shared_ptr<GameObject> mapObjects[21][21];
-// фабрика для создания игровых объектов
-GameObjectFactory gameObjectFactory;
 // поле 
 GameObject field;
 // игрок
 shared_ptr<GameObject> player;
 // монстры
 shared_ptr<GameObject> monsters[5];
+// бомба
+shared_ptr<GameObject> bomb;
 // используемая камера
 Camera camera(0.1, 0.1, 50);
 
@@ -90,11 +92,15 @@ void initData()
 	//игрок
 	player = gameObjectFactory.create(GameObjectType::PLAYER, 1, 19);
 
+	// монстры
 	ivec2 monsterLocation[5]{ ivec2(5, 3), ivec2(19, 5), ivec2(19, 18), ivec2(1, 15), ivec2(9, 9) };
 
 	for (int i = 0; i < 5; i++) {
 		monsters[i] = gameObjectFactory.create(GameObjectType::MONSTER, monsterLocation[i].x, monsterLocation[i].y);
 	}
+
+	//бомба
+	bomb = nullptr;
 
 	// инициализация объектов сцены
 	for (int i = 0; i < 21; i++) {
@@ -117,7 +123,7 @@ void initData()
 	}
 
 	for (int i = 0; i < 5; i++) {
-		passabilityMap[monsterLocation[i].x][monsterLocation[i].y] = 2;
+		passabilityMap[monsterLocation[i].x][monsterLocation[i].y] = 5;
 	}
 
 }

@@ -106,5 +106,5 @@ void PhongMaterial::apply()
 	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, value_ptr(emission)); //Цвет самосвечения. 
 	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shininess); //Степень отполированности объекта
 
-	//Texture::disableAll();
+	Texture::disableAll();
 }

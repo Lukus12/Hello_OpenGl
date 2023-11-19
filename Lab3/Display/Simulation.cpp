@@ -2,7 +2,8 @@
 #include "Simulation.h"
 
 extern LARGE_INTEGER previous, frequency;
-float limitTime;
+float limitTimeMonstr;
+float bombTime;
 
 void moveLightBox(MoveDirection direction, int PlayerPosX, int PlayerPosY) {
 	ivec2 offset = {};
@@ -45,44 +46,59 @@ void moveLightBox(MoveDirection direction, int PlayerPosX, int PlayerPosY) {
 }
 
 void movePlayer() {
-	vec2 nextPlayerPos = (*player).getPosition();
-	int nextPlayerPosX = nextPlayerPos[0];
-	int nextPlayerPosY = nextPlayerPos[1];
+	ivec2 nextPlayerPos = (*player).getPosition();
+	int playerPosX = nextPlayerPos.x;
+	int playerPosY = nextPlayerPos.y;
 
-	if (GetAsyncKeyState('W')){
-		if (passabilityMap[nextPlayerPosX][nextPlayerPosY - 1] == 0) {
-			(*player).move(MoveDirection::UP, 50);
-		}
-		else if (passabilityMap[nextPlayerPosX][nextPlayerPosY - 1] == 1 &&
-			(passabilityMap[nextPlayerPosX][nextPlayerPosY - 2] == 0)) {
-				moveLightBox(MoveDirection::UP, nextPlayerPosX, nextPlayerPosY);
-		}
+	if (!(*player).isMoving() && GetAsyncKeyState(0x20) && bomb == nullptr) {
+		bomb = gameObjectFactory.create(GameObjectType::BOMB, nextPlayerPos.x, nextPlayerPos.y);
+		passabilityMap[nextPlayerPos.x][nextPlayerPos.y] = 4;
 	}
-	if (GetAsyncKeyState('S')) {
-		if (passabilityMap[nextPlayerPosX][nextPlayerPosY + 1] == 0) {
-			(*player).move(MoveDirection::DOWN, 50);
-		}
-		else if (passabilityMap[nextPlayerPosX][nextPlayerPosY + 1] == 1 &&
-			(passabilityMap[nextPlayerPosX][nextPlayerPosY + 2] == 0)) {
-				moveLightBox(MoveDirection::DOWN, nextPlayerPosX, nextPlayerPosY);
-		}
+
+	MoveDirection direction = {};
+
+	if (GetAsyncKeyState('W')) direction = MoveDirection::UP;
+	if (GetAsyncKeyState('S')) direction = MoveDirection::DOWN;
+	if (GetAsyncKeyState('A')) direction = MoveDirection::LEFT;
+	if (GetAsyncKeyState('D')) direction = MoveDirection::RIGHT;
+
+	switch (direction) {
+		case MoveDirection::LEFT:
+			nextPlayerPos.x--;
+			break;
+		case MoveDirection::RIGHT:
+			nextPlayerPos.x++;
+			break;
+		case MoveDirection::UP:
+			nextPlayerPos.y--;
+			break;
+		case MoveDirection::DOWN:
+			nextPlayerPos.y++;
+			break;
 	}
-	if (GetAsyncKeyState('A')){
-		if (passabilityMap[nextPlayerPosX - 1][nextPlayerPosY] == 0) {
-			(*player).move(MoveDirection::LEFT, 50);
+
+	if (!(*player).isMoving()) {
+		int typeNextPosition = passabilityMap[nextPlayerPos.x][nextPlayerPos.y];
+		if (typeNextPosition == 0) {
+			(*player).move(direction, 50);
 		}
-		else if (passabilityMap[nextPlayerPosX - 1][nextPlayerPosY] == 1 &&
-			(passabilityMap[nextPlayerPosX - 2][nextPlayerPosY] == 0)) {
-				moveLightBox(MoveDirection::LEFT, nextPlayerPosX, nextPlayerPosY);
-		}
-	}
-	if (GetAsyncKeyState('D')){
-		if (passabilityMap[nextPlayerPosX + 1][nextPlayerPosY] == 0) {
-			(*player).move(MoveDirection::RIGHT, 50);
-		}
-		else if (passabilityMap[nextPlayerPosX + 1][nextPlayerPosY] == 1 &&
-			(passabilityMap[nextPlayerPosX + 2][nextPlayerPosY] == 0)) {
-				moveLightBox(MoveDirection::RIGHT, nextPlayerPosX, nextPlayerPosY);
+		if (typeNextPosition == 1) {
+			switch (direction) {
+				case MoveDirection::LEFT:
+					nextPlayerPos.x--;
+					break;
+				case MoveDirection::RIGHT:
+					nextPlayerPos.x++;
+					break;
+				case MoveDirection::UP:
+					nextPlayerPos.y--;
+					break;
+				case MoveDirection::DOWN:
+					nextPlayerPos.y++;
+					break;
+			}
+			int typeNext2Position = passabilityMap[nextPlayerPos.x][nextPlayerPos.y];
+			if (typeNext2Position == 0) moveLightBox(direction, playerPosX, playerPosY);
 		}
 	}
 }
@@ -110,37 +126,30 @@ void randomizeDirection(MoveDirection &direction)
 void monstersSimulation(float simulationTime)
 {
 	MoveDirection direction = MoveDirection::STOP;
-	limitTime += simulationTime*50;
+	limitTimeMonstr += simulationTime*50;
 
-	if (limitTime >= 0.1) {
-		limitTime = 0;
+	if (limitTimeMonstr >= 0.1) {
+		limitTimeMonstr = 0;
 		for (int i = 0; i < 5; i++) {
-
-			if (player != nullptr) {
-				if ((*monsters[i]).getPosition() == (*player).getPosition()) {
-					player.reset();
+			if (monsters[i] != nullptr) {
+				if (player != nullptr) {
+					if ((*monsters[i]).getPosition() == (*player).getPosition()) {
+						player.reset();
+					}
 				}
-			}
 
-			/*
-					Выбираем рандом направление, если там не 0, выбираем по новой,
-				иначе идем по выбранному направлению и сохраняем прошлое направление
-				прошлое направление противоположно текущему
-				прошлое направление меняется, когда монстр выбирает путь отличный от текущего
-			*/
+				if (!(*monsters[i]).isMoving()) {
 
-			if (!(*monsters[i]).isMoving()) {
+					randomizeDirection(direction);
 
-				randomizeDirection(direction);
+					int monsterPositionX = (*monsters[i]).getPosition()[0];
+					int monsterPositionY = (*monsters[i]).getPosition()[1];
 
-				int monsterPositionX = (*monsters[i]).getPosition()[0];
-				int monsterPositionY = (*monsters[i]).getPosition()[1];
+					ivec2 nextMonsterPosition;
+					nextMonsterPosition.x = monsterPositionX;
+					nextMonsterPosition.y = monsterPositionY;
 
-				ivec2 nextMonsterPosition;
-				nextMonsterPosition.x = monsterPositionX;
-				nextMonsterPosition.y = monsterPositionY;
-
-				switch (direction) {
+					switch (direction) {
 					case MoveDirection::LEFT:
 						nextMonsterPosition.x--;
 						break;
@@ -153,25 +162,25 @@ void monstersSimulation(float simulationTime)
 					case MoveDirection::DOWN:
 						nextMonsterPosition.y++;
 						break;
-				}
+					}
 
-				int typeNextPosition = passabilityMap[nextMonsterPosition.x][nextMonsterPosition.y];
+					int typeNextPosition = passabilityMap[nextMonsterPosition.x][nextMonsterPosition.y];
 
-				//проверка на тупик
-				blockDirection[i]++;
-				if (blockDirection[i] == 100) {
-					lastDirection[i] = {};
-					blockDirection[i] = 0;
-				}
+					//сброс пути (с расчётом на то, что монстр засрял в тупике)
+					blockDirection[i]++;
+					if (blockDirection[i] == 100) {
+						lastDirection[i] = {};
+						blockDirection[i] = 0;
+					}
 
-				if (typeNextPosition == 0 and direction != lastDirection[i]) {
+					if (typeNextPosition == 0 and direction != lastDirection[i]) {
 
-					(*monsters[i]).move(direction, 50);
-					passabilityMap[monsterPositionX][monsterPositionY] = 0;
-					passabilityMap[nextMonsterPosition.x][nextMonsterPosition.y] = 2;
+						(*monsters[i]).move(direction, 50);
+						passabilityMap[monsterPositionX][monsterPositionY] = 0;
+						passabilityMap[nextMonsterPosition.x][nextMonsterPosition.y] = 5;
 
-					//сохр путь отуда пришёл монстр
-					switch (direction) {
+						//сохр путь отуда пришёл монстр
+						switch (direction) {
 						case MoveDirection::LEFT:
 							lastDirection[i] = MoveDirection::RIGHT;
 							break;
@@ -184,6 +193,7 @@ void monstersSimulation(float simulationTime)
 						case MoveDirection::DOWN:
 							lastDirection[i] = MoveDirection::UP;
 							break;
+						}
 					}
 				}
 			}
@@ -191,13 +201,97 @@ void monstersSimulation(float simulationTime)
 	}
 }
 
+void bombSimulation(float simulationTime) {
+	if (bomb != nullptr) {
+		bombTime += simulationTime * 50;
+		if (bombTime > 3.5) {
+			bombTime = 0;
+			ivec2 bombPosition = (*bomb).getPosition();
+			passabilityMap[bombPosition.x][bombPosition.y] = 0;
+			
+			MoveDirection directions[4] = { MoveDirection::UP, MoveDirection::RIGHT, MoveDirection::DOWN, MoveDirection::LEFT };
+			
+			for (MoveDirection direction : directions) {
+				
+				ivec2 explosionRadius;
+				explosionRadius.x = bombPosition.x;
+				explosionRadius.y = bombPosition.y;
+
+				switch (direction) {
+					case MoveDirection::LEFT:
+						explosionRadius.x--;
+						break;
+					case MoveDirection::RIGHT:
+						explosionRadius.x++;
+						break;
+					case MoveDirection::UP:
+						explosionRadius.y--;
+						break;
+					case MoveDirection::DOWN:
+						explosionRadius.y++;
+						break;
+				}
+				
+				int typeNextPosition;
+				
+				for (int i = 0; i < 2; i++) {
+					typeNextPosition = passabilityMap[explosionRadius.x][explosionRadius.y];
+					if (typeNextPosition == 2 || typeNextPosition == 3) break;
+					
+					if (player != nullptr) {
+						if ((*player).getPosition() == explosionRadius) {
+							player.reset();
+							break;
+						}
+					}
+					
+					if (typeNextPosition == 5) {
+						for (auto& monster : monsters) {
+							if (monster != nullptr) {
+								if ((*monster).getPosition() == explosionRadius) {
+									monster = nullptr;
+								}
+							}
+						}
+						passabilityMap[explosionRadius.x][explosionRadius.y] = 0;
+						break;
+					}
+					if (typeNextPosition == 1) {
+						mapObjects[explosionRadius.x][explosionRadius.y] = nullptr;
+						passabilityMap[explosionRadius.x][explosionRadius.y] = 0;
+						break;
+					}
+					switch (direction) {
+						case MoveDirection::LEFT:
+							explosionRadius.x--;
+							break;
+						case MoveDirection::RIGHT:
+							explosionRadius.x++;
+							break;
+						case MoveDirection::UP:
+							explosionRadius.y--;
+							break;
+						case MoveDirection::DOWN:
+							explosionRadius.y++;
+							break;
+					}
+				}
+			}
+
+			passabilityMap[bombPosition.x][bombPosition.y] = 0;
+			bomb = nullptr;
+		}
+	}
+}
 
 void gameObjectSimulation(float simulationTime) {
 	if (player != nullptr) {
 		(*player).simulate(simulationTime);
 	}
 	for (int i = 0; i < 5; i++) {
-		(*monsters[i]).simulate(simulationTime);
+		if (monsters[i] != nullptr) {
+			(*monsters[i]).simulate(simulationTime);
+		}
 	}
 	for (int i = 0; i < 21; i++) {
 		for (int j = 0; j < 21; j++) {
@@ -241,6 +335,8 @@ void simulation()
 	gameObjectSimulation(simulationTime);
 	//перемещение монстров
 	monstersSimulation(simulationTime);
+    // существование бомбы
+	bombSimulation(simulationTime);
 	//перемещение главного героя
 	if (player != nullptr) {
 		movePlayer();

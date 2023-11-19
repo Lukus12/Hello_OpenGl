@@ -4,6 +4,8 @@
 
 #include "..\Data\Data.h"
 
+extern GameObjectFactory gameObjectFactory;
+
 void movePlayer();
 void gameObjectSimulation(float simulationTime);
 void simulation();

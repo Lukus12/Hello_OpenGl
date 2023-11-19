@@ -1,22 +1,12 @@
 #pragma once
 
-#include <windows.h>
-
 #include <vector>
-#include <sstream>
-
-#include "GL/glew.h"
-
-#include "GL/freeglut.h"
-
-#include <glm/glm.hpp>
 
 #include "..\Scene\Camera\Camera.h"
+#include "..\Scene\Object\GameObjectFactory.h"
 #include "..\Scene\Lighting\Light.h"
 #include "..\Scene\Object\GraphicObject\GraphicObject.h"
 #include "..\Scene\Object\GameObject.h"
-#include "..\Scene\Object\GameObjectFactory.h"
-
 
 
 // список графических объектов
@@ -24,6 +14,7 @@ extern std::vector<shared_ptr<GraphicObject>>graphicObjects;
 // игровые объекты
 extern std::shared_ptr<GameObject> player;
 extern std::shared_ptr<GameObject> monsters[5];
+extern std::shared_ptr<GameObject> bomb;
 // прошлый путь монстра и сбор направления
 extern MoveDirection lastDirection[5];
 extern int blockDirection[5];
@@ -40,5 +31,6 @@ extern int passabilityMap[21][21];
 extern shared_ptr<GameObject> mapObjects[21][21];
 
 extern LARGE_INTEGER current, previous, frequency, end;
+
 
 void initData();
