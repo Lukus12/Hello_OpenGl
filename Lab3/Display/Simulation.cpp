@@ -5,6 +5,24 @@ extern LARGE_INTEGER previous, frequency;
 float limitTimeMonstr;
 float bombTime;
 
+ivec2 directionÑalculation(MoveDirection direction, ivec2 nextPos) {
+	switch (direction) {
+		case MoveDirection::LEFT:
+			nextPos.x--;
+			break;
+		case MoveDirection::RIGHT:
+			nextPos.x++;
+			break;
+		case MoveDirection::UP:
+			nextPos.y--;
+			break;
+		case MoveDirection::DOWN:
+			nextPos.y++;
+			break;
+	}
+	return nextPos;
+}
+
 void moveLightBox(MoveDirection direction, int PlayerPosX, int PlayerPosY) {
 	ivec2 offset = {};
 	ivec2 newPos = {};
@@ -62,20 +80,7 @@ void movePlayer() {
 	if (GetAsyncKeyState('A')) direction = MoveDirection::LEFT;
 	if (GetAsyncKeyState('D')) direction = MoveDirection::RIGHT;
 
-	switch (direction) {
-		case MoveDirection::LEFT:
-			nextPlayerPos.x--;
-			break;
-		case MoveDirection::RIGHT:
-			nextPlayerPos.x++;
-			break;
-		case MoveDirection::UP:
-			nextPlayerPos.y--;
-			break;
-		case MoveDirection::DOWN:
-			nextPlayerPos.y++;
-			break;
-	}
+	nextPlayerPos = directionÑalculation(direction, nextPlayerPos);
 
 	if (!(*player).isMoving()) {
 		int typeNextPosition = passabilityMap[nextPlayerPos.x][nextPlayerPos.y];
@@ -83,20 +88,7 @@ void movePlayer() {
 			(*player).move(direction, 50);
 		}
 		if (typeNextPosition == 1) {
-			switch (direction) {
-				case MoveDirection::LEFT:
-					nextPlayerPos.x--;
-					break;
-				case MoveDirection::RIGHT:
-					nextPlayerPos.x++;
-					break;
-				case MoveDirection::UP:
-					nextPlayerPos.y--;
-					break;
-				case MoveDirection::DOWN:
-					nextPlayerPos.y++;
-					break;
-			}
+			nextPlayerPos = directionÑalculation(direction, nextPlayerPos);
 			int typeNext2Position = passabilityMap[nextPlayerPos.x][nextPlayerPos.y];
 			if (typeNext2Position == 0) moveLightBox(direction, playerPosX, playerPosY);
 		}
@@ -132,6 +124,7 @@ void monstersSimulation(float simulationTime)
 		limitTimeMonstr = 0;
 		for (int i = 0; i < 5; i++) {
 			if (monsters[i] != nullptr) {
+
 				if (player != nullptr) {
 					if ((*monsters[i]).getPosition() == (*player).getPosition()) {
 						player.reset();
@@ -148,21 +141,7 @@ void monstersSimulation(float simulationTime)
 					ivec2 nextMonsterPosition;
 					nextMonsterPosition.x = monsterPositionX;
 					nextMonsterPosition.y = monsterPositionY;
-
-					switch (direction) {
-					case MoveDirection::LEFT:
-						nextMonsterPosition.x--;
-						break;
-					case MoveDirection::RIGHT:
-						nextMonsterPosition.x++;
-						break;
-					case MoveDirection::UP:
-						nextMonsterPosition.y--;
-						break;
-					case MoveDirection::DOWN:
-						nextMonsterPosition.y++;
-						break;
-					}
+					nextMonsterPosition = directionÑalculation(direction, nextMonsterPosition);
 
 					int typeNextPosition = passabilityMap[nextMonsterPosition.x][nextMonsterPosition.y];
 
@@ -216,21 +195,7 @@ void bombSimulation(float simulationTime) {
 				ivec2 explosionRadius;
 				explosionRadius.x = bombPosition.x;
 				explosionRadius.y = bombPosition.y;
-
-				switch (direction) {
-					case MoveDirection::LEFT:
-						explosionRadius.x--;
-						break;
-					case MoveDirection::RIGHT:
-						explosionRadius.x++;
-						break;
-					case MoveDirection::UP:
-						explosionRadius.y--;
-						break;
-					case MoveDirection::DOWN:
-						explosionRadius.y++;
-						break;
-				}
+				explosionRadius = directionÑalculation(direction, explosionRadius);
 				
 				int typeNextPosition;
 				
@@ -261,20 +226,7 @@ void bombSimulation(float simulationTime) {
 						passabilityMap[explosionRadius.x][explosionRadius.y] = 0;
 						break;
 					}
-					switch (direction) {
-						case MoveDirection::LEFT:
-							explosionRadius.x--;
-							break;
-						case MoveDirection::RIGHT:
-							explosionRadius.x++;
-							break;
-						case MoveDirection::UP:
-							explosionRadius.y--;
-							break;
-						case MoveDirection::DOWN:
-							explosionRadius.y++;
-							break;
-					}
+					explosionRadius = directionÑalculation(direction, explosionRadius);
 				}
 			}
 

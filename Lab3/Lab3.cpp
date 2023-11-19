@@ -11,7 +11,6 @@
 using namespace std;
 using namespace glm;
 
-
 extern Camera camera;
 //extern Light light;
 extern LARGE_INTEGER previous, frequency;
